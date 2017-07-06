@@ -1,8 +1,156 @@
 package software.unf.dk.timetracker;
 
+import android.util.Log;
+
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.*;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
- * Handels all Read and Write to xml Files.
+ * Handles processing of XML Files.
+ *
+ * File syntax:
+ * <action>
+ *     <action name="" classification="(education|entertainment|work)" time=""/>
+ * </action>
  */
 
+// TODO: compartmentalize into ActionIOHandler and CategoryIOHandler?
+
 public class IOHandler {
+    private final String DOCUMENT_HEADER = "<?xml version=\"1.0\"?>\n<actions>\n</actions>";
+
+    private File file;
+    private DocumentBuilderFactory factory;
+    private DocumentBuilder builder;
+    private Document document;
+
+    /**
+     * Creates a new IOHandler
+     * @param filename Filename the handler should write to
+     */
+    public IOHandler(String filename) {
+        try {
+            // Create file if it doesn't exist
+            file = new File(filename);
+            if (file.createNewFile()) {
+                PrintWriter writer = new PrintWriter(file, "UTF-8");
+                writer.println(DOCUMENT_HEADER);
+                writer.close();
+            }
+            // Initialise parser objects
+            factory = DocumentBuilderFactory.newInstance();
+            builder = factory.newDocumentBuilder();
+            // Create test string
+            ByteArrayInputStream input = new ByteArrayInputStream(DOCUMENT_HEADER.getBytes("UTF-8"));
+
+            // Parse file
+            document = builder.parse(input);
+            // document = builder.parse(file);
+        } catch (ParserConfigurationException e) {
+            // TODO: Actually handle exceptions
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.e("Error", "File input/output error");
+            e.printStackTrace();
+        } catch (SAXException e) {
+            Log.e("Error", "XML parsing error");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Parses the file the IOHandler handles and returns an ArrayList with all the actions inside it
+     * @return An ArrayList of the Actions in the XML file
+     */
+    public ArrayList<Action> parseActions() {
+        ArrayList<Action> actionList = new ArrayList<>();
+        try {
+            // get root XML element
+            Element root = document.getDocumentElement();
+            // Check proper root tag
+            if ((!root.getTagName().equals("actions")) || root.getNodeType() != Node.ELEMENT_NODE) {
+                // TODO: actually handle syntax errors
+                throw new IOException();
+            }
+            // Get action nodes
+            NodeList actionNodes = root.getElementsByTagName("action");
+            for (int i = 0; i < actionNodes.getLength(); i++) {
+                Node actionNode = actionNodes.item(i);
+                // Check proper tag name
+                if (actionNode.getNodeType() != Node.ELEMENT_NODE || !(actionNode.getNodeName().equals("action") )) {
+                    throw new IOException();
+                }
+                // Cast to Element
+                Element actionElement = (Element) actionNode;
+                // Get values
+                String name = actionElement.getAttribute("name");
+                Classification classification = Action.getClassificationFromString(actionElement.getAttribute("classification"));
+                String dateString = actionElement.getAttribute("time");
+                Date date = new Date(Long.getLong(dateString));
+                // Create action with values
+                Action action = new Action(name, classification, date);
+                actionList.add(action);
+            }
+        } catch (IOException e) {
+            Log.e("Error", "File input/output error");
+            e.printStackTrace();
+        }
+        return actionList;
+    }
+
+    /**
+     * Saves the specified ArrayList of Actions in the IOHandler's file
+     * @param actionList ArrayList of Actions to be saved
+     */
+    public void writeActions(ArrayList<Action> actionList) {
+        Document document = builder.newDocument();
+
+        // Create root element
+        Element root = document.createElement("actions");
+        document.appendChild(root);
+
+        // Create Action elements
+        for (int i = 0; i < actionList.size(); i++) {
+            Action action = actionList.get(i);
+            Element actionElement = document.createElement("action");
+
+            // Set attributes
+            Attr nameAttribute = document.createAttribute("name");
+            nameAttribute.setValue(action.getName());
+            actionElement.setAttributeNode(nameAttribute);
+
+            Attr classAttribute = document.createAttribute("classification");
+            classAttribute.setValue(Action.getStringFromClassification(action.getClassification()));
+            actionElement.setAttributeNode(classAttribute);
+
+            Attr timeAttribute = document.createAttribute("time");
+            timeAttribute.setValue(action.getDate().toString());
+            actionElement.setAttributeNode(timeAttribute);
+
+            // Add element to root
+            root.appendChild(actionElement);
+        }
+
+        // Write XML file
+        try {
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(document);
+            StreamResult result = new StreamResult(file);
+            transformer.transform(source, result);
+        } catch (Exception e) {
+            Log.e("Error", "Failed to write XML file");
+            e.printStackTrace();
+        }
+    }
 }
