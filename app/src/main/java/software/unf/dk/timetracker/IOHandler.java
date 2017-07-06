@@ -36,12 +36,12 @@ public class IOHandler {
 
     /**
      * Creates a new IOHandler
-     * @param filename Filename the handler should write to
+     * @param file File the handler should write to
      */
-    public IOHandler(String filename) {
+    public IOHandler(File file) {
+        this.file = file;
         try {
             // Create file if it doesn't exist
-            file = new File(filename);
             if (file.createNewFile()) {
                 PrintWriter writer = new PrintWriter(file, "UTF-8");
                 writer.println(DOCUMENT_HEADER);
@@ -54,7 +54,7 @@ public class IOHandler {
             ByteArrayInputStream input = new ByteArrayInputStream(DOCUMENT_HEADER.getBytes("UTF-8"));
 
             // Parse file
-            document = builder.parse(input);
+            document = builder.parse(file);
             // document = builder.parse(file);
         } catch (ParserConfigurationException e) {
             // TODO: Actually handle exceptions
@@ -74,7 +74,9 @@ public class IOHandler {
      */
     public ArrayList<Action> parseActions() {
         ArrayList<Action> actionList = new ArrayList<>();
+        Log.e("Info", "File length is " + file.length());
         try {
+            document = builder.parse(file);
             // get root XML element
             Element root = document.getDocumentElement();
             // Check proper root tag
@@ -96,7 +98,9 @@ public class IOHandler {
                 String name = actionElement.getAttribute("name");
                 Classification classification = Action.getClassificationFromString(actionElement.getAttribute("classification"));
                 String dateString = actionElement.getAttribute("time");
-                Date date = new Date(Long.getLong(dateString));
+                Log.i("Info", "dateString is: " + dateString);
+                // FIXME: Use date from file
+                Date date = new Date();
                 // Create action with values
                 Action action = new Action(name, classification, date);
                 actionList.add(action);
@@ -104,6 +108,8 @@ public class IOHandler {
         } catch (IOException e) {
             Log.e("Error", "File input/output error");
             e.printStackTrace();
+        } catch (SAXException e) {
+            Log.e("Error", "XML Parsing error");
         }
         return actionList;
     }
@@ -134,7 +140,7 @@ public class IOHandler {
             actionElement.setAttributeNode(classAttribute);
 
             Attr timeAttribute = document.createAttribute("time");
-            timeAttribute.setValue(action.getDate().toString());
+            timeAttribute.setValue(Long.toString(action.getDate().getTime()));
             actionElement.setAttributeNode(timeAttribute);
 
             // Add element to root
