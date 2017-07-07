@@ -32,6 +32,13 @@ class Classification {
         return map;
     }
 
+    public static ArrayList<String> mapToStringList(ConcurrentHashMap<String, Classification> map) {
+        ArrayList<String> list = new ArrayList<>();
+        for (Map.Entry<String, Classification> entry : map.entrySet()) {
+            list.add(entry.getValue().getName());
+        }
+        return list;
+    }
 
 
 

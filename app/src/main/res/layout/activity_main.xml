@@ -11,11 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="What are you doing ?"
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp"
         android:layout_below="@+id/history"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp" />
+        android:layout_marginTop="26dp" />
 
     <EditText
         android:id="@+id/svar"
@@ -25,20 +26,19 @@
         android:inputType="textPersonName"
         android:layout_below="@+id/question"
         android:layout_alignLeft="@+id/question"
-        android:layout_alignStart="@+id/question"
-        android:layout_marginTop="63dp" />
+        android:layout_alignStart="@+id/question" />
 
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/classificationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:layout_marginBottom="16dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/svar"
-        android:layout_alignStart="@+id/svar"
-        android:layout_marginBottom="11dp" />
+        android:layout_alignLeft="@+id/spinner"
+        android:layout_alignStart="@+id/spinner" />
 
     <Button
         android:id="@+id/buttonSetter"
@@ -69,9 +69,25 @@
         android:text="History"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginTop="26dp" />
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/addClassification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/classificationText"
+        android:layout_alignEnd="@+id/buttonSetter"
+        android:layout_alignRight="@+id/buttonSetter"
+        android:onClick="createClassification"
+        android:text="Add" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/addClassification"
+        android:layout_alignLeft="@+id/classificationText"
+        android:layout_alignStart="@+id/classificationText"
+        android:text="Create classification." />
 
 </RelativeLayout>

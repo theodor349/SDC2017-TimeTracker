@@ -3,7 +3,6 @@ package software.unf.dk.timetracker;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ButtonBarLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,25 +11,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
-import java.lang.reflect.Array;
-import java.security.PrivateKey;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.xml.transform.stream.StreamResult;
 
 public class MainActivity extends AppCompatActivity {
     private final String ACTIONS_FILENAME = "actions.xml";
     private final String CLASSIFICATIONS_FILENAME = "classifications.xml";
 
-    private TextView question;
     private EditText answer;
+    private EditText classificationText;
     private Spinner spinner;
-    private TextView testing;
+    private TextView question;
     private Button enter;
-    private TextView testing2;
+    private Button addClassificationB;
     private String tempAnswer;
 
     /**  Counting variables   **/
@@ -76,10 +72,15 @@ public class MainActivity extends AppCompatActivity {
      * Assign layout variables and initialize elements
      */
     private void layoutSetup() {
+        // Actions.
         question = (TextView) findViewById(R.id.question);
         answer = (EditText) findViewById(R.id.svar);
-        spinner = (Spinner)findViewById(R.id.spinner);
         enter = (Button) findViewById(R.id.buttonSetter);
+        // Dropdown.
+        spinner = (Spinner)findViewById(R.id.spinner);
+        classificationText = (EditText) findViewById(R.id.classificationText);
+        addClassificationB = (Button) findViewById(R.id.addClassification);
+
 
         counterMap.put("Calendar Events",0);
         counterMap.put("Chores",0);
@@ -97,7 +98,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void setSpinner(){
-        paths = (String[]) Classification.mapToList(Classification.classificationMap).toArray(new String[0]);
+        Log.i("test", "HI");
+
+
+        paths = (String[]) Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
 
         // Doing so the Array can be put into the Spinner
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
@@ -121,19 +125,31 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    /** gets runned when Enter is pressed**/
+    // Runs when Enter is pressed
     public void enter(View view){
         tempAnswer = answer.getText().toString();
         answer.setText("");
-        testing2.setText(tempAnswer);
         counterMap.put(tempCata, counterMap.get(tempCata) + 1);
-        testing.setText("" + counterMap.get(tempCata));
 
         // Creates new instance of an action and adds it to the list of actions.
         String name = answer.getText().toString();
         Classification classification = Classification.classificationMap.get(tempCata);
         Date date = new Date();
         Action.actionList.add(new Action(name, classification, date));
+    }
+
+    public void createClassification(View view){
+        String name = classificationText.getText().toString();
+        if(Classification.classificationMap.containsKey(name)){
+            // This classification exist.
+            Toast.makeText(this, "Already exists",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        // Does not exist.
+        Classification.classificationMap.put(name, new Classification(name));
+
+        setSpinner();
     }
 
     // Kalder history function i xml
