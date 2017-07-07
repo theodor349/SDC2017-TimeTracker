@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView question;
@@ -24,15 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private String tempAnswer;
 
     /**  Counting variables   **/
-    private int catCalendarEvents = 0;
-    private int catChoresCount = 0;
-    private int catEducational = 0;
-    private int catEntertainment = 0;
-    private int catFamily = 0;
-    private int catFriends = 0;
-    private int catRelaxation = 0;
-    private int catSports = 0;
-    private int catWork = 0;
+    private ConcurrentHashMap<String, Integer> counterMap = new ConcurrentHashMap<>();
+
 
     private static final String[]paths = {"Calendar Events", "Chores", "Educational", "Entertainment", "Family", "Friends", "Relaxation", "Sports", "Work"};
     // temperory catagory variable
@@ -49,6 +44,16 @@ public class MainActivity extends AppCompatActivity {
         spinner = (Spinner)findViewById(R.id.spinner);
         enter = (Button) findViewById(R.id.buttonSetter);
         testing2 = (TextView) findViewById(R.id.testing2);
+
+        counterMap.put("Calendar Events",0);
+        counterMap.put("Chores",0);
+        counterMap.put("Educationel",0);
+        counterMap.put("Entertainment",0);
+        counterMap.put("Family",0);
+        counterMap.put("Friends",0);
+        counterMap.put("Relaxation",0);
+        counterMap.put("Sports",0);
+        counterMap.put("Work",0);
 
 
         // Doing so the Array can be put into the Spinner
@@ -73,48 +78,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void submit(View view){   /** gets runned when Enter is pressed**/
+    public void enter(View view){   /** gets runned when Enter is pressed**/
         tempAnswer = answer.getText().toString();
         answer.setText("");
         testing2.setText(tempAnswer);
-        // call the function to save it all
-        if(tempCata == "Calender Events"){
-            catCalendarEvents++;
-            testing.setText(""+catCalendarEvents);}
-        else if(tempCata == "Chores"){
-            catChoresCount++;
-            testing.setText(""+catChoresCount);
-        }
-        else if(tempCata == "Educational"){
-            catEducational++;
-            testing.setText(""+catEducational);
-        }
-        else if(tempCata == "Entertainment"){
-            catEntertainment++;
-            testing.setText(""+catEntertainment);
-        }
-        else if(tempCata == "Family"){
-            catFamily++;
-            testing.setText(""+catFamily);
-        }
-        else if(tempCata == "Friends"){
-            catFriends++;
-            testing.setText(""+catFriends);
-        }
-        else if(tempCata == "Relaxation"){
-            catRelaxation++;
-            testing.setText(""+catRelaxation);
-        }
-        else if(tempCata == "Sports"){
-            catSports++;
-            testing.setText(""+catSports);
-        }
-        else if(tempCata == "Work"){
-            catWork++;
-            testing.setText(""+catWork);
-        }
+        counterMap.put(tempCata, counterMap.get(tempCata) + 1);
+        testing.setText("" + counterMap.get(tempCata));
     }
-
+    //kalder history function i xml
     public void history (View view){
         Intent hisintent = new Intent( this, History.class);
         startActivity(hisintent);
