@@ -29,12 +29,6 @@ public class HistoryActivity extends Activity{
         layoutSetup();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        layoutSetup();
-    }
-
     private void layoutSetup() {
         actionListView = (ListView) findViewById(R.id.actionList);
 
@@ -51,9 +45,9 @@ public class HistoryActivity extends Activity{
         actionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String itemValue = (String) actionListView.getItemAtPosition(position);
+                Action action = (Action) actionListView.getItemAtPosition(position);
                 Toast.makeText(getApplicationContext(),
-                        "Position :"+position+"  ListItem : " +itemValue , Toast.LENGTH_LONG).show();
+                        "Position :"+position+"  ListItem : " +action.getName() , Toast.LENGTH_SHORT).show();
             }
         });
     }

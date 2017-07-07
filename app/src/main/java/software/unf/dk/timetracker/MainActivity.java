@@ -3,7 +3,6 @@ package software.unf.dk.timetracker;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,27 +14,20 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.Date;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class MainActivity extends AppCompatActivity {
     private final String ACTIONS_FILENAME = "actions.xml";
     private final String CLASSIFICATIONS_FILENAME = "classifications.xml";
 
     private EditText answer;
+    private EditText classificationText;
     private Spinner spinner;
     private TextView question;
     private Button enter;
     private Button addClassificationB;
-    private String tempAnswer;
-    private Button settings;
-    private EditText classificationText;
+    private String classificationString;
 
-    /**  Counting variables   **/
-    private ConcurrentHashMap<String, Integer> counterMap = new ConcurrentHashMap<>();
-
-    private static String[] paths = {"Calendar Events", "Chores", "Educational", "Entertainment", "Family", "Friends", "Relaxation", "Sports", "Work"};
-    // temperory catagory variable
-    private String tempCata;
+    private static String[] paths;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,29 +73,14 @@ public class MainActivity extends AppCompatActivity {
         spinner = (Spinner)findViewById(R.id.spinner);
         classificationText = (EditText) findViewById(R.id.classificationText);
         addClassificationB = (Button) findViewById(R.id.addClassification);
-        settings = (Button) findViewById(R.id.settings);
-
-
-        counterMap.put("Calendar Events",0);
-        counterMap.put("Chores",0);
-        counterMap.put("Educationel",0);
-        counterMap.put("Entertainment",0);
-        counterMap.put("Family",0);
-        counterMap.put("Friends",0);
-        counterMap.put("Relaxation",0);
-        counterMap.put("Sports",0);
-        counterMap.put("Work",0);
-
-
         setSpinner();
-
     }
 
-    private  void setSpinner(){
+    private void setSpinner(){
         paths = (String[]) Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
 
         // Doing so the Array can be put into the Spinner
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this,
                 android.R.layout.simple_spinner_item,paths);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -112,27 +89,22 @@ public class MainActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                tempCata = paths[i];
-                // paths[i] string for det valgte tag
+                // Set string to selected spinner value
+                classificationString = paths[i];
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) { }
         }
         );
     }
 
     // Runs when Enter is pressed
     public void enter(View view){
-        tempAnswer = answer.getText().toString();
-        answer.setText("");
-        counterMap.put(tempCata, counterMap.get(tempCata) + 1);
-
         // Creates new instance of an action and adds it to the list of actions.
         String name = answer.getText().toString();
-        Classification classification = Classification.classificationMap.get(tempCata);
+        answer.setText("");
+        Classification classification = Classification.classificationMap.get(classificationString);
         Date date = new Date();
         Action.actionList.add(new Action(name, classification, date));
     }
@@ -153,18 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Kalder history function i xml
     public void history (View view){
-        Intent hisintent = new Intent( this, PieChartView.class);
-
-        startActivity(hisintent);
-
+        Intent intent = new Intent(this, HistoryActivity.class);
+        startActivity(intent);
     }
-
-    public void settingpath(View view){
-        Intent hissettingpath = new Intent(this, CustomSettings.class);
-        startActivity(hissettingpath);
-    }
-
-
-
-
 }
