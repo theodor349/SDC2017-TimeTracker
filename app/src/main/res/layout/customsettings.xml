@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/enter2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/cataset"
+        android:layout_alignBottom="@+id/cataset"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_toEndOf="@+id/cataset"
+        android:layout_toRightOf="@+id/cataset"
+        android:onClick="setter"
+        android:text="Enter" />
+
+    <EditText
+        android:id="@+id/cataset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Custom Catagory "
+        android:layout_below="@+id/spinner2"
+        android:layout_alignLeft="@+id/cataset"
+        android:layout_alignStart="@+id/cataset"
+        android:layout_marginTop="30dp" />
+
+    <Button
+        android:id="@+id/brename"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/enter2"
+        android:layout_alignRight="@+id/enter2"
+        android:layout_below="@+id/enter2"
+        android:layout_marginTop="29dp"
+        android:text="Enter" />
+
+    <Button
+        android:id="@+id/bremove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/brename"
+        android:layout_alignStart="@+id/brename"
+        android:layout_below="@+id/brename"
+        android:layout_marginTop="31dp"
+        android:text="Enter" />
+
+    <EditText
+        android:id="@+id/rename"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/brename"
+        android:layout_toLeftOf="@+id/enter2"
+        android:layout_toStartOf="@+id/enter2"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/rename"
+        android:layout_alignRight="@+id/rename"
+        android:layout_alignTop="@+id/bremove"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rename"
+        android:layout_alignLeft="@+id/rename"
+        android:layout_alignStart="@+id/rename"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/remove"
+        android:layout_alignLeft="@+id/remove"
+        android:layout_alignStart="@+id/remove"
+        android:text="TextView" />
+
+</RelativeLayout>

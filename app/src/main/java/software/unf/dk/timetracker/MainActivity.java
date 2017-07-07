@@ -154,27 +154,12 @@ public class MainActivity extends AppCompatActivity {
 
     // Kalder history function i xml
     public void history (View view){
-        Intent hisintent = new Intent( this, History.class);
+        Intent hisintent = new Intent( this, PieChart.class);
         startActivity(hisintent);
 
     }
 
-    /*public void onStart(Bundle savedInstanceState) {
 
-        if(savedInstanceState != null)
-        {
-            tempAnswer = savedInstanceState.getString("MYANSWER");
-
-        }
-    }
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putString("MYANSWER", tempAnswer);
-
-
-    }
-    */
 
 
 
