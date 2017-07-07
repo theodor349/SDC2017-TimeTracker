@@ -3,4 +3,19 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="darkpurple">#5600FF</color>
+    <color name="neonpink">#FF00A9</color>
+    <color name="lightgreen">#A9FF00</color>
+    <color name="green">#2fff00</color>
+    <color name="blue">#039be5</color>
+    <color name="yellow">#ffc107</color>
+    <color name= "red">#d50000</color>
+    <color name="lightblue">#26c6da</color>
+    <color name="orange">#ff6f00</color>
+    <color name="magenza">#ad1457</color>
+    <color name="turqoise">#18ffff</color>
+    <color name="pumpkin">#ff5722</color>
+    <color name="purple">#673ab7</color>
+    <color name="palepink">#f06292</color>
+    <color name="svump">#43a047</color>
 </resources>
