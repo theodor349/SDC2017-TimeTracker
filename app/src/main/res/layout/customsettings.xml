@@ -4,26 +4,24 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/enter2"
+        android:id="@+id/adder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/cataset"
-        android:layout_alignBottom="@+id/cataset"
-        android:layout_marginLeft="26dp"
-        android:layout_marginStart="26dp"
-        android:layout_toEndOf="@+id/cataset"
-        android:layout_toRightOf="@+id/cataset"
-        android:onClick="setter"
-        android:text="Enter" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:onClick="adding"
+        android:text="ADD"
+        android:layout_alignTop="@+id/classificationText"
+        android:layout_toRightOf="@+id/classificationText"
+        android:layout_toEndOf="@+id/classificationText" />
 
     <EditText
-        android:id="@+id/cataset"
+        android:id="@+id/classificationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp"
+        android:layout_marginTop="28dp"
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -32,68 +30,53 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Custom Catagory "
-        android:layout_below="@+id/spinner2"
-        android:layout_alignLeft="@+id/cataset"
-        android:layout_alignStart="@+id/cataset"
-        android:layout_marginTop="30dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="61dp"
+        android:text="Custom Catagory" />
 
     <Button
         android:id="@+id/brename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/enter2"
-        android:layout_alignRight="@+id/enter2"
-        android:layout_below="@+id/enter2"
+        android:layout_alignEnd="@+id/adder"
+        android:layout_alignRight="@+id/adder"
+        android:layout_below="@+id/adder"
         android:layout_marginTop="29dp"
-        android:text="Enter" />
+        android:onClick="rename"
+        android:text="Rename" />
 
     <Button
         android:id="@+id/bremove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/brename"
-        android:layout_alignStart="@+id/brename"
+        android:layout_marginTop="29dp"
+        android:onClick="remove"
+        android:text="Remove"
         android:layout_below="@+id/brename"
-        android:layout_marginTop="31dp"
-        android:text="Enter" />
+        android:layout_alignLeft="@+id/brename"
+        android:layout_alignStart="@+id/brename" />
 
     <EditText
-        android:id="@+id/rename"
+        android:id="@+id/renameTekst"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/brename"
-        android:layout_toLeftOf="@+id/enter2"
-        android:layout_toStartOf="@+id/enter2"
+        android:layout_alignBottom="@+id/brename"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:ems="10"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/remove"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/rename"
-        android:layout_alignRight="@+id/rename"
-        android:layout_alignTop="@+id/bremove"
-        android:ems="10"
-        android:inputType="textPersonName" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/rename"
-        android:layout_alignLeft="@+id/rename"
-        android:layout_alignStart="@+id/rename"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/remove"
-        android:layout_alignLeft="@+id/remove"
-        android:layout_alignStart="@+id/remove"
-        android:text="TextView" />
+        android:layout_alignBottom="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="32dp" />
 
 </RelativeLayout>

@@ -4,90 +4,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="software.unf.dk.timetracker.MainActivity">
+    android:background="#039be5"
+    tools:context="software.unf.dk.timetracker.MainActivity"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="What are you doing ?"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp"
-        android:layout_below="@+id/history"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="26dp" />
-
-    <EditText
-        android:id="@+id/svar"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:layout_below="@+id/question"
-        android:layout_alignLeft="@+id/question"
-        android:layout_alignStart="@+id/question" />
-
-
-    <EditText
-        android:id="@+id/classificationText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:layout_marginBottom="16dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/spinner"
-        android:layout_alignStart="@+id/spinner" />
 
     <Button
         android:id="@+id/buttonSetter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:onClick="enter"
         android:text="Enter"
-        android:layout_alignTop="@+id/svar"
-        android:layout_alignLeft="@+id/history"
-        android:layout_alignStart="@+id/history" />
+        android:layout_alignBottom="@+id/svar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginEnd="15dp" />
 
-    <Spinner
-        android:id="@+id/spinner"
+    <EditText
+        android:id="@+id/svar"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonSetter"
-        android:layout_alignLeft="@+id/svar"
-        android:layout_alignStart="@+id/svar"
-        android:layout_marginTop="17dp"
-        android:layout_alignRight="@+id/svar"
-        android:layout_alignEnd="@+id/svar" />
-
-    <Button
-        android:id="@+id/history"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="history"
-        android:text="History"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_marginBottom="28dp"
+        android:layout_above="@+id/CreateText"
+        android:layout_alignLeft="@+id/spinner"
+        android:layout_alignStart="@+id/spinner" />
 
     <Button
         android:id="@+id/addClassification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/classificationText"
-        android:layout_alignEnd="@+id/buttonSetter"
-        android:layout_alignRight="@+id/buttonSetter"
+        android:layout_weight="1"
         android:onClick="createClassification"
-        android:text="Add" />
+        android:text="Add"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_alignTop="@+id/classificationText"
+        android:layout_toRightOf="@+id/classificationText"
+        android:layout_toEndOf="@+id/classificationText" />
 
-    <TextView
-        android:id="@+id/textView"
+    <Button
+        android:id="@+id/settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/addClassification"
-        android:layout_alignLeft="@+id/classificationText"
-        android:layout_alignStart="@+id/classificationText"
-        android:text="Create classification." />
+        android:layout_weight="1"
+        android:onClick="settingpath"
+        android:text="Settings"
+        android:layout_marginBottom="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp" />
+
+    <Button
+        android:id="@+id/history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="history"
+        android:text="History"
+        android:layout_alignBaseline="@+id/settings"
+        android:layout_alignBottom="@+id/settings"
+        android:layout_toRightOf="@+id/svar"
+        android:layout_toEndOf="@+id/svar" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginBottom="47dp"
+        android:layout_above="@+id/classificationText"
+        android:layout_alignLeft="@+id/CreateText"
+        android:layout_alignStart="@+id/CreateText" />
+
+    <EditText
+        android:id="@+id/classificationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_marginBottom="65dp"
+        android:layout_above="@+id/settings"
+        android:layout_alignLeft="@+id/CreateText"
+        android:layout_alignStart="@+id/CreateText" />
+
+    <TextView
+        android:id="@+id/CreateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Create classification"
+        android:layout_above="@+id/classificationText"
+        android:layout_alignLeft="@+id/settings"
+        android:layout_alignStart="@+id/settings" />
 
 </RelativeLayout>
+
+
+

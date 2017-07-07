@@ -2,6 +2,7 @@ package software.unf.dk.timetracker;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentHashMap;
 
 class Classification {
@@ -14,6 +15,11 @@ class Classification {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
+
     }
 
     public static ArrayList<Classification> mapToList(ConcurrentHashMap<String, Classification> map) {
@@ -39,7 +45,6 @@ class Classification {
         }
         return list;
     }
-
 
 
     // TEMP:
