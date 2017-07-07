@@ -3,7 +3,6 @@ package software.unf.dk.timetracker;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.Date;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class MainActivity extends AppCompatActivity {
     private final String ACTIONS_FILENAME = "actions.xml";
@@ -27,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView question;
     private Button enter;
     private Button addClassificationB;
-    private String tempAnswer;
     private String classificationString;
 
     private static String[] paths;
@@ -128,13 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Kalder history function i xml
     public void history (View view){
-        Intent hisintent = new Intent( this, HistoryActivity.class);
-        startActivity(hisintent);
+        Intent intent = new Intent(this, HistoryActivity.class);
+        startActivity(intent);
     }
-
-
-
-
-
-
 }
