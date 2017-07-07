@@ -2,7 +2,11 @@ package software.unf.dk.timetracker;
 
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Class for handling user activities
@@ -15,6 +19,8 @@ public class Action {
     private String name;
     private Classification classification;
     private Date date;
+
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.ENGLISH);
 
     public Action(String name, Classification classification, Date date) {
         this.name = name;
@@ -76,5 +82,19 @@ public class Action {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public static String dateToString(Date date) {
+        return DATE_FORMAT.format(date);
+    }
+
+    public static Date stringToDate(String string) {
+        try{
+            return DATE_FORMAT.parse(string);
+        }
+        catch (ParseException e){
+            Log.e("Error", "Failed to parse date string.");
+            return null;
+        }
     }
 }

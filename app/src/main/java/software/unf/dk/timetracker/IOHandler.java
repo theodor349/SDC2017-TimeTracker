@@ -12,8 +12,12 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Handles processing of XML Files.
@@ -99,8 +103,7 @@ public class IOHandler {
                 Classification classification = Action.getClassificationFromString(actionElement.getAttribute("classification"));
                 String dateString = actionElement.getAttribute("time");
                 Log.i("Info", "dateString is: " + dateString);
-                // FIXME: Use date from file
-                Date date = new Date();
+                Date date = Action.stringToDate(dateString);
                 // Create action with values
                 Action action = new Action(name, classification, date);
                 actionList.add(action);
@@ -140,7 +143,7 @@ public class IOHandler {
             actionElement.setAttributeNode(classAttribute);
 
             Attr timeAttribute = document.createAttribute("time");
-            timeAttribute.setValue(Long.toString(action.getDate().getTime()));
+            timeAttribute.setValue(Action.dateToString(action.getDate()));
             actionElement.setAttributeNode(timeAttribute);
 
             // Add element to root
