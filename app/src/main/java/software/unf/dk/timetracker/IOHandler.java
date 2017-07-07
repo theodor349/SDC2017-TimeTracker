@@ -12,20 +12,11 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import java.io.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Handles processing of XML Files.
- *
- * File syntax:
- * <action>
- *     <action name="" classification="(education|entertainment|work)" time=""/>
- * </action>
  */
 
 // TODO: compartmentalize into ActionIOHandler and CategoryIOHandler?
@@ -33,10 +24,10 @@ import java.util.Locale;
 public class IOHandler {
     private final String DOCUMENT_HEADER = "<?xml version=\"1.0\"?>\n<actions>\n</actions>";
 
-    private File file;
-    private DocumentBuilderFactory factory;
-    private DocumentBuilder builder;
-    private Document document;
+    protected File file;
+    protected DocumentBuilderFactory factory;
+    protected DocumentBuilder builder;
+    protected Document document;
 
     /**
      * Creates a new IOHandler
@@ -68,97 +59,6 @@ public class IOHandler {
             e.printStackTrace();
         } catch (SAXException e) {
             Log.e("Error", "XML parsing error");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Parses the file the IOHandler handles and returns an ArrayList with all the actions inside it
-     * @return An ArrayList of the Actions in the XML file
-     */
-    public ArrayList<Action> parseActions() {
-        ArrayList<Action> actionList = new ArrayList<>();
-        Log.e("Info", "File length is " + file.length());
-        try {
-            document = builder.parse(file);
-            // get root XML element
-            Element root = document.getDocumentElement();
-            // Check proper root tag
-            if ((!root.getTagName().equals("actions")) || root.getNodeType() != Node.ELEMENT_NODE) {
-                // TODO: actually handle syntax errors
-                throw new IOException();
-            }
-            // Get action nodes
-            NodeList actionNodes = root.getElementsByTagName("action");
-            for (int i = 0; i < actionNodes.getLength(); i++) {
-                Node actionNode = actionNodes.item(i);
-                // Check proper tag name
-                if (actionNode.getNodeType() != Node.ELEMENT_NODE || !(actionNode.getNodeName().equals("action") )) {
-                    throw new IOException();
-                }
-                // Cast to Element
-                Element actionElement = (Element) actionNode;
-                // Get values
-                String name = actionElement.getAttribute("name");
-                Classification classification = Action.getClassificationFromString(actionElement.getAttribute("classification"));
-                String dateString = actionElement.getAttribute("time");
-                Log.i("Info", "dateString is: " + dateString);
-                Date date = Action.stringToDate(dateString);
-                // Create action with values
-                Action action = new Action(name, classification, date);
-                actionList.add(action);
-            }
-        } catch (IOException e) {
-            Log.e("Error", "File input/output error");
-            e.printStackTrace();
-        } catch (SAXException e) {
-            Log.e("Error", "XML Parsing error");
-        }
-        return actionList;
-    }
-
-    /**
-     * Saves the specified ArrayList of Actions in the IOHandler's file
-     * @param actionList ArrayList of Actions to be saved
-     */
-    public void writeActions(ArrayList<Action> actionList) {
-        Document document = builder.newDocument();
-
-        // Create root element
-        Element root = document.createElement("actions");
-        document.appendChild(root);
-
-        // Create Action elements
-        for (int i = 0; i < actionList.size(); i++) {
-            Action action = actionList.get(i);
-            Element actionElement = document.createElement("action");
-
-            // Set attributes
-            Attr nameAttribute = document.createAttribute("name");
-            nameAttribute.setValue(action.getName());
-            actionElement.setAttributeNode(nameAttribute);
-
-            Attr classAttribute = document.createAttribute("classification");
-            classAttribute.setValue(Action.getStringFromClassification(action.getClassification()));
-            actionElement.setAttributeNode(classAttribute);
-
-            Attr timeAttribute = document.createAttribute("time");
-            timeAttribute.setValue(Action.dateToString(action.getDate()));
-            actionElement.setAttributeNode(timeAttribute);
-
-            // Add element to root
-            root.appendChild(actionElement);
-        }
-
-        // Write XML file
-        try {
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(file);
-            transformer.transform(source, result);
-        } catch (Exception e) {
-            Log.e("Error", "Failed to write XML file");
             e.printStackTrace();
         }
     }

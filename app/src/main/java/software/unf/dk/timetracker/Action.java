@@ -5,6 +5,7 @@ import android.util.Log;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -12,9 +13,8 @@ import java.util.Locale;
  * Class for handling user activities
  */
 
-enum Classification { ENTERTAINMENT, EDUCATION, WORK }
-
-public class Action {
+class Action {
+    public static ArrayList<Action> actionList = new ArrayList<>();
 
     private String name;
     private Classification classification;
@@ -26,38 +26,6 @@ public class Action {
         this.name = name;
         this.classification = classification;
         this.date = date;
-    }
-
-    /**
-     * Convert Classification to a String
-     * @param string String to be converted
-     * @return Converted string
-     */
-    public static Classification getClassificationFromString(String string) {
-        // TODO: user-generated classifications
-        if (string.equals("Education")) {
-            return Classification.EDUCATION;
-        } else if (string.equals("Entertainment")) {
-            return Classification.ENTERTAINMENT;
-        } else if (string.equals("Work")) {
-            return Classification.WORK;
-        } else {
-            Log.e("Error", "Action: Unrecognized classification");
-            return null;
-        }
-    }
-
-    public static String getStringFromClassification(Classification classification) {
-        switch (classification) {
-            case ENTERTAINMENT:
-                return "Entertainment";
-            case EDUCATION:
-                return "Education";
-            case WORK:
-                return "Work";
-            default:
-                return null;
-        }
     }
 
     public String getName() {
