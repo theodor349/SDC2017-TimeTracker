@@ -9,11 +9,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -29,8 +33,35 @@ import javax.xml.transform.stream.StreamResult;
  */
 
 class ActionIOHandler extends IOHandler {
+    private final String DOCUMENT_HEADER = "<?xml version=\"1.0\"?>\n<actions>\n</actions>";
     public ActionIOHandler(File file) {
         super(file);
+        try {
+            // Create file if it doesn't exist
+            if (file.createNewFile()) {
+                PrintWriter writer = new PrintWriter(file, "UTF-8");
+                writer.println(DOCUMENT_HEADER);
+                writer.close();
+            }
+            // Initialise parser objects
+            factory = DocumentBuilderFactory.newInstance();
+            builder = factory.newDocumentBuilder();
+            // Create test string
+            ByteArrayInputStream input = new ByteArrayInputStream(DOCUMENT_HEADER.getBytes("UTF-8"));
+
+            // Parse file
+            document = builder.parse(file);
+            // document = builder.parse(file);
+        } catch (ParserConfigurationException e) {
+            // TODO: Actually handle exceptions
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.e("Error", "File input/output error");
+            e.printStackTrace();
+        } catch (SAXException e) {
+            Log.e("Error", "XML parsing error");
+            e.printStackTrace();
+        }
     }
 
     /**

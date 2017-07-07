@@ -22,7 +22,6 @@ import java.util.Date;
 // TODO: compartmentalize into ActionIOHandler and CategoryIOHandler?
 
 public class IOHandler {
-    private final String DOCUMENT_HEADER = "<?xml version=\"1.0\"?>\n<actions>\n</actions>";
 
     protected File file;
     protected DocumentBuilderFactory factory;
@@ -35,31 +34,5 @@ public class IOHandler {
      */
     public IOHandler(File file) {
         this.file = file;
-        try {
-            // Create file if it doesn't exist
-            if (file.createNewFile()) {
-                PrintWriter writer = new PrintWriter(file, "UTF-8");
-                writer.println(DOCUMENT_HEADER);
-                writer.close();
-            }
-            // Initialise parser objects
-            factory = DocumentBuilderFactory.newInstance();
-            builder = factory.newDocumentBuilder();
-            // Create test string
-            ByteArrayInputStream input = new ByteArrayInputStream(DOCUMENT_HEADER.getBytes("UTF-8"));
-
-            // Parse file
-            document = builder.parse(file);
-            // document = builder.parse(file);
-        } catch (ParserConfigurationException e) {
-            // TODO: Actually handle exceptions
-            e.printStackTrace();
-        } catch (IOException e) {
-            Log.e("Error", "File input/output error");
-            e.printStackTrace();
-        } catch (SAXException e) {
-            Log.e("Error", "XML parsing error");
-            e.printStackTrace();
-        }
     }
 }

@@ -20,9 +20,16 @@ class Action {
     private Classification classification;
     private Date date;
 
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.ENGLISH);
+    private static final DateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.ENGLISH);
+    private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+    private static final DateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+    private static final DateFormat MONTH_FORMAT = new SimpleDateFormat("MM", Locale.ENGLISH);
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd", Locale.ENGLISH);
+    private static final DateFormat WEEKDAY_FORMAT = new SimpleDateFormat("EEE", Locale.ENGLISH);
+
 
     public Action(String name, Classification classification, Date date) {
+        Log.e("Test", "Action constructed with name " + name);
         this.name = name;
         this.classification = classification;
         this.date = date;
@@ -53,12 +60,20 @@ class Action {
     }
 
     public static String dateToString(Date date) {
-        return DATE_FORMAT.format(date);
+        return DATETIME_FORMAT.format(date);
+    }
+
+    public static String getDateYear(Date date) {
+        return YEAR_FORMAT.format(date);
+    }
+
+    public static String getDateMonth(Date date) {
+        return MONTH_FORMAT.format(date);
     }
 
     public static Date stringToDate(String string) {
         try{
-            return DATE_FORMAT.parse(string);
+            return DATETIME_FORMAT.parse(string);
         }
         catch (ParseException e){
             Log.e("Error", "Failed to parse date string.");
