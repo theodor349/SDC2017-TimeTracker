@@ -2,6 +2,7 @@ package software.unf.dk.timetracker;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,6 +32,7 @@ public class HistoryActivity extends Activity{
 
     private void layoutSetup() {
         actionListView = (ListView) findViewById(R.id.actionList);
+        final Context context = this;
 
         Action[] values = Action.actionList.toArray(new Action[0]);
         String logString = "";
@@ -46,8 +48,8 @@ public class HistoryActivity extends Activity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Action action = (Action) actionListView.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(),
-                        "Position :"+position+"  ListItem : " +action.getName() , Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ActionViewerActivity.class);
+                intent.putExtra(ActionViewerActivity.ACTION_EXTRA, action);
             }
         });
     }
@@ -68,11 +70,11 @@ class ActionArrayAdapter extends ArrayAdapter<Action> {
         Action a = values[position];
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.history_action_row, parent, false);
-        TextView nameText = (TextView) rowView.findViewById(R.id.nameText);
-        TextView timeText = (TextView) rowView.findViewById(R.id.timeText);
-        TextView dateText = (TextView) rowView.findViewById(R.id.dateText);
-        TextView classificationText = (TextView) rowView.findViewById(R.id.classificationText);
+        convertView = inflater.inflate(R.layout.history_action_row, parent, false);
+        TextView nameText = (TextView) convertView.findViewById(R.id.nameText);
+        TextView timeText = (TextView) convertView.findViewById(R.id.timeText);
+        TextView dateText = (TextView) convertView.findViewById(R.id.dateText);
+        TextView classificationText = (TextView) convertView.findViewById(R.id.classificationText);
 
         DateFormat dateFormat = new SimpleDateFormat("EEE, dd/MM yyyy", Locale.ENGLISH);
         DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
@@ -81,7 +83,7 @@ class ActionArrayAdapter extends ArrayAdapter<Action> {
         timeText.setText(timeFormat.format(a.getDate()));
         dateText.setText(dateFormat.format(a.getDate()));
 
-        return rowView;
+        return convertView;
     }
 
 }

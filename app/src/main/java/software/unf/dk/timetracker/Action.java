@@ -1,5 +1,7 @@
 package software.unf.dk.timetracker;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.text.DateFormat;
@@ -13,7 +15,7 @@ import java.util.Locale;
  * Class for handling user activities
  */
 
-class Action {
+class Action implements Parcelable {
     public static ArrayList<Action> actionList = new ArrayList<>();
 
     private String name;
@@ -21,12 +23,6 @@ class Action {
     private Date date;
 
     private static final DateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.ENGLISH);
-    private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
-    private static final DateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy", Locale.ENGLISH);
-    private static final DateFormat MONTH_FORMAT = new SimpleDateFormat("MM", Locale.ENGLISH);
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd", Locale.ENGLISH);
-    private static final DateFormat WEEKDAY_FORMAT = new SimpleDateFormat("EEE", Locale.ENGLISH);
-
 
     public Action(String name, Classification classification, Date date) {
         Log.e("Test", "Action constructed with name " + name);
@@ -64,14 +60,6 @@ class Action {
         return DATETIME_FORMAT.format(date);
     }
 
-    public static String getDateYear(Date date) {
-        return YEAR_FORMAT.format(date);
-    }
-
-    public static String getDateMonth(Date date) {
-        return MONTH_FORMAT.format(date);
-    }
-
     public static Date stringToDate(String string) {
         try{
             return DATETIME_FORMAT.parse(string);
@@ -81,4 +69,34 @@ class Action {
             return null;
         }
     }
+
+    // Parcel functions
+    protected Action(Parcel in) {
+        name = in.readString();
+        classification = (Classification) in.readValue(Classification.class.getClassLoader());
+        long tmpDate = in.readLong();
+        date = tmpDate != -1 ? new Date(tmpDate) : null;
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(name);
+        out.writeValue(classification);
+        out.writeLong(date != null ? date.getTime() : -1L);
+    }
+
+    public static final Parcelable.Creator<Action> CREATOR = new Parcelable.Creator<Action>() {
+        @Override
+        public Action createFromParcel(Parcel in) {
+            return new Action(in);
+        }
+
+        @Override
+        public Action[] newArray(int size) {
+            return new Action[size];
+        }
+    };
 }
