@@ -271,7 +271,6 @@ public class HistoryActivity extends Activity{
     public void setDateToday(View view){
         DateFormat dateFormat = new SimpleDateFormat("dd/MM yyyy", Locale.ENGLISH);
         currShownDate = dateFormat.format(new Date());
-        Log.e("datetest",currShownDate);
         upDateView();
     }
 

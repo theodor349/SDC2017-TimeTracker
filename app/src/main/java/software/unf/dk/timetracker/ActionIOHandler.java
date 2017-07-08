@@ -33,7 +33,10 @@ import javax.xml.transform.stream.StreamResult;
  */
 
 class ActionIOHandler extends IOHandler {
+
     private final String DOCUMENT_HEADER = "<?xml version=\"1.0\"?>\n<actions>\n</actions>";
+
+    // Instantiates, anc create a fil.
     public ActionIOHandler(File file) {
         super(file);
         try {

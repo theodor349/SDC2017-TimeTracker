@@ -90,6 +90,12 @@ class ClassificationIOHandler extends IOHandler {
                 Element actionElement = (Element) classificationNode;
                 // Get values
                 String name = actionElement.getAttribute("name");
+
+                // DO WE CHECK FOR DUPLICATIONS?
+                Classification c = Classification.classificationMap.get(name);
+                if(c != null)
+                    Log.e("Test", "TEST");
+
                 Classification classification = new Classification(name);
                 classifications.add(classification);
             }

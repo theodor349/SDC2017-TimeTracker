@@ -11,10 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-/**
+/***
  * Class for handling user activities
  */
-
 class Action implements Parcelable {
     public static ArrayList<Action> actionList = new ArrayList<>();
 
@@ -28,39 +27,38 @@ class Action implements Parcelable {
         this.name = name;
         this.classification = classification;
         this.date = date;
+
+        // Tell classification a new instance of action have been made.
+        classification.addAction(this);
     }
 
     /**
      * Getter and setters.
-      */
+     */
     // Name.
     public String getName() {
-
         return name;
     }
     public void setName(String name) {
-
         this.name = name;
     }
+
     // Classification.
     public Classification getClassification() {
-
         return classification;
     }
     public void setClassification(Classification classification) {
         this.classification = classification;
     }
+
     // Dates and time.
     public Date getDate() {
-
         return date;
     }
     public void setDate(Date date) {
-
         this.date = date;
     }
     public static String dateToString(Date date) {
-
         return DATETIME_FORMAT.format(date);
     }
     public static Date stringToDate(String string) {

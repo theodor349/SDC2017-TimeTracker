@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
@@ -64,6 +65,22 @@ public class MainActivity extends AppCompatActivity {
         Classification.classificationMap = Classification.listToMap(classificationIOHandler.parseClassifications());
         ActionIOHandler actionIOHandler = new ActionIOHandler(new File(getFilesDir(), ACTIONS_FILENAME));
         Action.actionList = actionIOHandler.parseActions();
+
+        // Testing.
+        Classification c = Classification.classificationMap.get("theodor");
+        if(c == null)
+            Log.e("Test", "HI I DO NOT EXIST");
+        else
+            Log.e("Test", "HI I DO EXIST " );
+        ArrayList<Action> as = c.getActions();
+        if(as == null)
+            Log.e("Test", "THE LIST DO NOT EXIST");
+        else{
+            Log.e("Test", "THE LIST EXIST AND IS: " + as.size() + " LONG");
+        for (Action a : as) {
+            Log.e("Test", a.getName());
+            }
+        }
     }
 
     private void saveData() {
