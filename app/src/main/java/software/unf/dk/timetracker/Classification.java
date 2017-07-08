@@ -1,10 +1,14 @@
 package software.unf.dk.timetracker;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Dictionary;
+import java.util.Enumeration;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,14 +20,18 @@ class Classification {
     private String name;
     private ArrayList<Action> actions;
 
-
-
-
-
+    /**
+     * Maybe use a in int ID instead of the name. For what happens when the name changes?
+     * Do we want to delete data when "deleting" it or should we just mark it as "deleted" (with a bool)?
+     * Need to check whether or not there is an instance of this, before adding one to the map.
+     *
+     */
 
     // Instantiate method.
     public Classification(String name) {
         this.name = name;
+
+        // Instantiate Arrays and list...
         actions = new ArrayList<>();
     }
 
@@ -43,25 +51,13 @@ class Classification {
             actions = new ArrayList<>();
         }
         actions.add(a);
-        if(name.equals("theodor")) {
-            Log.e("Test", "HI AN ACTION HAVE BEEN ADDED, WITH CLASSIFICATION WITH NAME: " + name + this);
-            if (actions == null)
-                Log.e("Test", "(Actions) THE LIST DO NOT EXIST");
-            else
-                Log.e("Test", "(Actions) THE LIST EXIST AND IS: " + actions.size() + " LONG " + this);
-        }
     }
     // Return actions list.
     public ArrayList<Action> getActions(){
-        if(actions == null) {
-            Log.e("Test", "(Actions Return) THE LIST DO NOT EXIST " + this);
-            return null;
-        }
-        Log.e("Test", "(Actions Return) THE LIST EXIST AND IS: " + actions.size() + " LONG");
         return actions;
     }
 
-    // Return classifications.
+    // Return classifications. (HashMap)
     public static ArrayList<Classification> mapToList(ConcurrentHashMap<String, Classification> map) {
         ArrayList<Classification> list = new ArrayList<>();
         for (Map.Entry<String, Classification> entry : map.entrySet()) {
@@ -83,4 +79,6 @@ class Classification {
         }
         return list;
     }
+
+
 }

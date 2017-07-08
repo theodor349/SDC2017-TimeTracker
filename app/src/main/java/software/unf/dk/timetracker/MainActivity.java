@@ -44,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
 
         loadData();
         layoutSetup();
+
+        test();
+    }
+
+    // Used for testing ONLY!
+    private void test(){
     }
 
     protected void onResume(){
@@ -65,27 +71,6 @@ public class MainActivity extends AppCompatActivity {
         Classification.classificationMap = Classification.listToMap(classificationIOHandler.parseClassifications());
         ActionIOHandler actionIOHandler = new ActionIOHandler(new File(getFilesDir(), ACTIONS_FILENAME));
         Action.actionList = actionIOHandler.parseActions();
-
-        // Testing.
-        Classification c = Classification.classificationMap.get("theodor");
-        if(c == null)
-            Log.e("Test", "HI I DO NOT EXIST");
-        else
-            Log.e("Test", "HI I DO EXIST " );
-
-        Log.e("Test", c + " HAVE THIS LIST: " + c.getActions());
-
-        ArrayList<Action> as = c.getActions();
-        if(as == null)
-            Log.e("Test", "THE LIST DO NOT EXIST");
-        else{
-            Log.e("Test", "THE LIST EXIST AND IS: " + as.size() + " LONG");
-        for (Action a : as) {
-            Log.e("Test", a.getName());
-            }
-        }
-
-        Log.e("Test", "Contains 'theodor' = " + Classification.classificationMap.containsKey("theodor"));
     }
 
     private void saveData() {
