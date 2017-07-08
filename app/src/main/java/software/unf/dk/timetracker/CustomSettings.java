@@ -115,6 +115,8 @@ public class CustomSettings extends Activity {
         Classification.classificationMap.put(newName, c);
         // Update spinner contents
         setSpinner();
+        rename.setText("");
+
     }
 
 }

@@ -23,8 +23,8 @@ class Classification {
 
     // Instantiate method.
     public Classification(String name) {
-
         this.name = name;
+        actions = new ArrayList<>();
     }
 
     // Name.
@@ -44,7 +44,7 @@ class Classification {
         }
         actions.add(a);
         if(name.equals("theodor")) {
-            Log.e("Test", "HI A ACTION HAVE BEEN ADDED, WITH CLASSIFICATION WITH NAME: " + name);
+            Log.e("Test", "HI AN ACTION HAVE BEEN ADDED, WITH CLASSIFICATION WITH NAME: " + name + this);
             if (actions == null)
                 Log.e("Test", "(Actions) THE LIST DO NOT EXIST");
             else

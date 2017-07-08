@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
             Log.e("Test", "HI I DO NOT EXIST");
         else
             Log.e("Test", "HI I DO EXIST " );
+
+        Log.e("Test", c + " HAVE THIS LIST: " + c.getActions());
+
         ArrayList<Action> as = c.getActions();
         if(as == null)
             Log.e("Test", "THE LIST DO NOT EXIST");
@@ -81,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
             Log.e("Test", a.getName());
             }
         }
+
+        Log.e("Test", "Contains 'theodor' = " + Classification.classificationMap.containsKey("theodor"));
     }
 
     private void saveData() {

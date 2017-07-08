@@ -93,11 +93,13 @@ class ClassificationIOHandler extends IOHandler {
 
                 // DO WE CHECK FOR DUPLICATIONS?
                 Classification c = Classification.classificationMap.get(name);
-                if(c != null)
-                    Log.e("Test", "TEST");
 
                 Classification classification = new Classification(name);
                 classifications.add(classification);
+                if(Classification.classificationMap.containsKey(name))
+                    Log.e("Test", "Dubble: " + c + ", " + c.getName());
+                else
+                    Log.e("Test", "Single: " + classification + ", " + classification.getName());
             }
         } catch (IOException e) {
             Log.e("Error", "File input/output error");
