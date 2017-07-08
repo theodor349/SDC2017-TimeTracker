@@ -12,8 +12,13 @@ class Classification {
     public Classification(String name) {
         this.name = name;
     }
+    private ArrayList<Action> actions;
+
+
+//    public ArrayList<Action>
 
     public String getName() {
+
         return name;
     }
 

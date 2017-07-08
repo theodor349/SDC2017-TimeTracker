@@ -25,41 +25,44 @@ class Action implements Parcelable {
     private static final DateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.ENGLISH);
 
     public Action(String name, Classification classification, Date date) {
-        Log.e("Test", "Action constructed with name " + name);
         this.name = name;
         this.classification = classification;
         this.date = date;
     }
 
+    /**
+     * Getter and setters.
+      */
+    // Name.
     public String getName() {
+
         return name;
     }
-
     public void setName(String name) {
+
         this.name = name;
     }
-
-
+    // Classification.
     public Classification getClassification() {
+
         return classification;
     }
-
     public void setClassification(Classification classification) {
         this.classification = classification;
     }
-
+    // Dates and time.
     public Date getDate() {
+
         return date;
     }
-
     public void setDate(Date date) {
+
         this.date = date;
     }
-
     public static String dateToString(Date date) {
+
         return DATETIME_FORMAT.format(date);
     }
-
     public static Date stringToDate(String string) {
         try{
             return DATETIME_FORMAT.parse(string);

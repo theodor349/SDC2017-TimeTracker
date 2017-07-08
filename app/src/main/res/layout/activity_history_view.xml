@@ -7,6 +7,52 @@
     android:layout_height="match_parent">
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/oneLessMonthB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="oneLessMonth"
+            android:text="-30" />
+
+        <Button
+            android:id="@+id/onelessDayB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="oneLessDay"
+            android:text="-1 Day" />
+
+        <Button
+            android:id="@+id/todayB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="setDateToday"
+            android:text="Today" />
+
+        <Button
+            android:id="@+id/oneExtraDayB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="oneExtraDay"
+            android:text="+1 Day" />
+
+        <Button
+            android:id="@+id/oneExtraMonthB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="oneExtraMonth"
+            android:text="+30" />
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,11 +66,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/showDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Action history"
-                android:textAppearance="@style/TextAppearance.AppCompat" />
+                android:text="Date: 7/8/2017"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <ListView
                 android:id="@+id/actionList"

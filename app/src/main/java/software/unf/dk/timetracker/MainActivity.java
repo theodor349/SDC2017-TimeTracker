@@ -22,9 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText answer;
     private EditText classificationText;
     private Spinner spinner;
-    private TextView question;
-    private Button enter;
-    private Button addClassificationB;
     private String classificationString;
 
 
@@ -37,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
         loadData();
         layoutSetup();
+    }
+
+    protected void onResume(){
+        super.onResume();
+        setSpinner();
     }
 
     @Override
@@ -67,13 +69,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private void layoutSetup() {
         // Actions.
-        question = (TextView) findViewById(R.id.question);
         answer = (EditText) findViewById(R.id.svar);
-        enter = (Button) findViewById(R.id.buttonSetter);
         // Dropdown.
         spinner = (Spinner)findViewById(R.id.spinner);
         classificationText = (EditText) findViewById(R.id.classificationText);
-        addClassificationB = (Button) findViewById(R.id.addClassification);
 
         setSpinner();
     }
@@ -123,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         Classification.classificationMap.put(name, new Classification(name));
 
         setSpinner();
+        classificationText.setText("");
     }
 
     // Kalder history function i xml
