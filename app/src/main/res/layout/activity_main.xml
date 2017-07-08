@@ -13,13 +13,14 @@
         android:id="@+id/spinner"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView5"
         android:layout_column="0"
         android:layout_row="2"
         tools:layout_editor_absoluteX="20dp"
-        tools:layout_editor_absoluteY="130dp" />
+        tools:layout_editor_absoluteY="130dp"
+        android:layout_below="@+id/textView5"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="11dp" />
 
     <Button
         android:id="@+id/button3"
@@ -48,14 +49,14 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/svar"
         android:layout_column="0"
         android:layout_row="15"
         android:text=" Choose catagory"
         tools:layout_editor_absoluteX="20dp"
-        tools:layout_editor_absoluteY="114dp" />
+        tools:layout_editor_absoluteY="114dp"
+        android:layout_below="@+id/buttonSetter"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:id="@+id/classificationText"
@@ -64,8 +65,6 @@
         android:layout_below="@+id/textView6"
         android:layout_column="0"
         android:layout_row="3"
-        android:layout_toEndOf="@+id/editText"
-        android:layout_toRightOf="@+id/editText"
         android:ems="10"
         android:inputType="textPersonName"
         android:singleLine="false"
@@ -89,16 +88,16 @@
         android:id="@+id/buttonSetter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/svar"
-        android:layout_alignBottom="@+id/svar"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignStart="@+id/button2"
         android:layout_column="1"
         android:layout_row="3"
         android:onClick="enter"
         android:text="Enter"
         tools:layout_editor_absoluteX="277dp"
-        tools:layout_editor_absoluteY="50dp" />
+        tools:layout_editor_absoluteY="50dp"
+        android:layout_alignBaseline="@+id/svar"
+        android:layout_alignBottom="@+id/svar"
+        android:layout_toRightOf="@+id/spinner"
+        android:layout_toEndOf="@+id/spinner" />
 
     <TextView
         android:id="@+id/textView4"
@@ -116,53 +115,58 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button"
-        android:layout_marginBottom="104dp"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp"
-        android:layout_toEndOf="@+id/classificationText"
-        android:layout_toRightOf="@+id/classificationText"
+        android:layout_marginBottom="101dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
         android:onClick="createClassification"
         android:text="Add"
         tools:layout_editor_absoluteX="254dp"
-        tools:layout_editor_absoluteY="274dp" />
+        tools:layout_editor_absoluteY="274dp"
+        android:layout_above="@+id/imageView3"
+        android:layout_toRightOf="@+id/classificationText"
+        android:layout_toEndOf="@+id/classificationText" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/imageView2"
         android:layout_column="0"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="14dp"
         android:layout_row="3"
         android:text="What are you doing ?"
         android:textSize="24sp"
         tools:layout_editor_absoluteX="20dp"
-        tools:layout_editor_absoluteY="22dp" />
+        tools:layout_editor_absoluteY="22dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:onClick="settingpath"
         android:text="Settings"
         tools:layout_editor_absoluteX="13dp"
-        tools:layout_editor_absoluteY="447dp" />
+        tools:layout_editor_absoluteY="447dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp" />
 
     <EditText
         android:id="@+id/svar"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_marginTop="11dp"
+        android:layout_below="@+id/textView7"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView7"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        android:layout_alignRight="@+id/button4"
+        android:layout_alignEnd="@+id/button4" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -177,10 +181,11 @@
         android:id="@+id/imageView4"
         android:layout_width="match_parent"
         android:layout_height="2dp"
+        app:srcCompat="@android:color/black"
+        android:layout_above="@+id/textView4"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        app:srcCompat="@android:color/black" />
+        android:layout_marginBottom="32dp" />
 
 
 </RelativeLayout>

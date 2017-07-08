@@ -7,6 +7,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 class Classification {
     private String name;
+
+
+
+    private int amount = 10;
+
     public static ConcurrentHashMap<String, Classification> classificationMap = new ConcurrentHashMap<>();
 
     public Classification(String name) {
@@ -22,6 +27,9 @@ class Classification {
         return name;
     }
 
+    public int getAmount() {
+        return amount;
+    }
     public void setName(String name){
         this.name = name;
 
