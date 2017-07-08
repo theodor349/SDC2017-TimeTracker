@@ -4,108 +4,120 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#039be5"
-    tools:context="software.unf.dk.timetracker.MainActivity"
-        android:orientation="vertical">
+    tools:context="software.unf.dk.timetracker.MainActivity">
 
-
-    <Button
-        android:id="@+id/buttonSetter"
+    <TextView
+        android:id="@+id/question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="enter"
-        android:text="Enter"
-        android:layout_alignBottom="@+id/svar"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="15dp"
-        android:layout_marginEnd="15dp" />
+        android:text="What are you doing ?"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="22dp" />
 
     <EditText
         android:id="@+id/svar"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:ems="10"
         android:inputType="textPersonName"
-        android:layout_marginBottom="28dp"
-        android:layout_above="@+id/CreateText"
-        android:layout_alignLeft="@+id/spinner"
-        android:layout_alignStart="@+id/spinner" />
+        android:layout_marginTop="65dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/question"
+        android:layout_alignStart="@+id/question"
+        android:layout_toStartOf="@+id/addClassification"
+        android:layout_toLeftOf="@+id/addClassification"
+        android:layout_alignRight="@+id/classificationText"
+        android:layout_alignEnd="@+id/classificationText" />
 
-    <Button
-        android:id="@+id/addClassification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="createClassification"
-        android:text="Add"
-        android:layout_marginLeft="13dp"
-        android:layout_marginStart="13dp"
-        android:layout_alignTop="@+id/classificationText"
-        android:layout_toRightOf="@+id/classificationText"
-        android:layout_toEndOf="@+id/classificationText" />
-
-    <Button
-        android:id="@+id/settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="settingpath"
-        android:text="Settings"
-        android:layout_marginBottom="45dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp" />
-
-    <Button
-        android:id="@+id/history"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="history"
-        android:text="History"
-        android:layout_alignBaseline="@+id/settings"
-        android:layout_alignBottom="@+id/settings"
-        android:layout_toRightOf="@+id/svar"
-        android:layout_toEndOf="@+id/svar" />
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginBottom="47dp"
-        android:layout_above="@+id/classificationText"
-        android:layout_alignLeft="@+id/CreateText"
-        android:layout_alignStart="@+id/CreateText" />
 
     <EditText
         android:id="@+id/classificationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:ems="10"
         android:inputType="textPersonName"
-        android:layout_marginBottom="65dp"
-        android:layout_above="@+id/settings"
-        android:layout_alignLeft="@+id/CreateText"
-        android:layout_alignStart="@+id/CreateText" />
+        android:layout_marginTop="11dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
 
-    <TextView
-        android:id="@+id/CreateText"
+    <Button
+        android:id="@+id/buttonSetter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Create classification"
-        android:layout_above="@+id/classificationText"
-        android:layout_alignLeft="@+id/settings"
-        android:layout_alignStart="@+id/settings" />
+        android:onClick="enter"
+        android:text="Enter"
+        android:layout_alignTop="@+id/svar"
+        android:layout_alignLeft="@+id/addClassification"
+        android:layout_alignStart="@+id/addClassification" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonSetter"
+        android:layout_alignLeft="@+id/svar"
+        android:layout_alignStart="@+id/svar"
+        android:layout_marginTop="49dp" />
+
+    <Button
+        android:id="@+id/history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/statistic"
+        android:layout_alignBottom="@+id/statistic"
+        android:layout_toEndOf="@+id/classificationText"
+        android:layout_toRightOf="@+id/classificationText"
+        android:onClick="historya"
+        android:text="History" />
+
+    <Button
+        android:id="@+id/addClassification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="createClassification"
+        android:text="Add"
+        android:layout_alignTop="@+id/classificationText"
+        android:layout_toRightOf="@+id/classificationText"
+        android:layout_toEndOf="@+id/classificationText"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create classification."
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/question"
+        android:layout_alignEnd="@+id/question" />
+
+    <Button
+        android:id="@+id/settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/classificationText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/classificationText"
+        android:layout_marginBottom="68dp"
+        android:onClick="settingpath"
+        android:text="Setting" />
+
+    <Button
+        android:id="@+id/statistic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="piepath"
+        android:text="Statistics"
+        android:layout_alignBaseline="@+id/settings"
+        android:layout_alignBottom="@+id/settings"
+        android:layout_alignRight="@+id/classificationText"
+        android:layout_alignEnd="@+id/classificationText"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp" />
 
 </RelativeLayout>
-
-
-

@@ -16,10 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PieChartView">
-        </activity>
-        <activity android:name=".CustomSettings">
-        </activity>
+        <activity android:name=".PieChartView"/>
+        <activity android:name=".CustomSettings"/>
+        <activity android:name=".HistoryActivity"/>
     </application>
 
 </manifest>

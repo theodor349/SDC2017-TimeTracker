@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Button addClassificationB;
     private String classificationString;
 
+
     private static String[] paths;
 
     @Override
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         spinner = (Spinner)findViewById(R.id.spinner);
         classificationText = (EditText) findViewById(R.id.classificationText);
         addClassificationB = (Button) findViewById(R.id.addClassification);
+
         setSpinner();
     }
 
@@ -124,8 +126,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Kalder history function i xml
-    public void history (View view){
+    public void historya (View view){
         Intent intent = new Intent(this, HistoryActivity.class);
         startActivity(intent);
+    }
+
+    public void settingpath(View view){
+        Intent hissettingpath = new Intent(this, CustomSettings.class);
+        startActivity(hissettingpath);
+    }
+
+    public void piepath(View view){
+        Intent hisppath = new Intent(this, PieChartView.class);
+        startActivity(hisppath);
     }
 }
