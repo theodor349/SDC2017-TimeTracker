@@ -37,7 +37,7 @@ public class CustomSettings extends Activity {
         setSpinner();
     }
 
-    private  void setSpinner(){
+    private void setSpinner(){
         spinnerStrings = Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
 
         // Doing so the Array can be put into the Spinner
@@ -57,6 +57,10 @@ public class CustomSettings extends Activity {
 
             }
         });
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     public void adding(View view){
@@ -90,8 +94,15 @@ public class CustomSettings extends Activity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
                 newName = inputText.getText().toString();
+                if (newName.equals("")) {
+                    showToast("Name can't be empty");
+                }
+                if (Classification.getClassificationByName(newName) != null) {
+                    showToast("Name must be unique");
+                    return;
+                }
+                dialog.dismiss();
                 Classification c = Classification.getClassificationByName(classificationName);
                 c.setName(newName);
                 setSpinner();
