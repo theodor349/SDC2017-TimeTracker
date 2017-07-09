@@ -78,6 +78,8 @@ public class HistoryActivity extends Activity{
                 Action action = (Action) actionListView.getItemAtPosition(position);
                 Intent intent = new Intent(HistoryActivity.this, ActionViewerActivity.class);
                 intent.putExtra(ActionViewerActivity.ACTION_EXTRA, action);
+                // FIXME: Implement this so it doesn't crash
+                //startActivity(intent);
             }
         });
     }

@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-class Classification {
+class Classification implements Parcelable {
     // Static.
     public static ConcurrentHashMap<Integer, Classification> classificationMap = new ConcurrentHashMap<>();
 
@@ -43,7 +43,7 @@ class Classification {
         return id;
     }
 
-    public static boolean createNew(String name) {
+    static boolean createNew(String name) {
         if (Classification.nameExists(name)) {
             return false;
         }
@@ -58,7 +58,7 @@ class Classification {
         Log.e("Test", "Address is " + classificationMap.get(id));
         return true;
     }
-    public static int getUniqueId() {
+    static int getUniqueId() {
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
             if (!classificationMap.containsKey(i)) {
                 return i;
@@ -67,7 +67,7 @@ class Classification {
         return -1;
     }
 
-    public static Classification getClassificationByName(String name){
+    static Classification getClassificationByName(String name){
         for (Map.Entry<Integer, Classification> e: classificationMap.entrySet()) {
             if(e.getValue().getName().equals(name)) {
                 Log.e("Test", e.getValue() +"");
@@ -88,7 +88,7 @@ class Classification {
         return -1;
     }
 
-    public static boolean nameExists(String name) {
+    private static boolean nameExists(String name) {
         for (Classification c : mapToList(classificationMap)) {
             if (c.getName().equals(name)) {
                 return true;
@@ -98,21 +98,21 @@ class Classification {
     }
 
     // Return classifications. (HashMap)
-    public static ArrayList<Classification> mapToList(ConcurrentHashMap<Integer, Classification> map) {
+    static ArrayList<Classification> mapToList(ConcurrentHashMap<Integer, Classification> map) {
         ArrayList<Classification> list = new ArrayList<>();
         for (Map.Entry<Integer, Classification> entry : map.entrySet()) {
             list.add(entry.getValue());
         }
         return list;
     }
-    public static ConcurrentHashMap<Integer, Classification> listToMap(ArrayList<Classification> list) {
+    static ConcurrentHashMap<Integer, Classification> listToMap(ArrayList<Classification> list) {
         ConcurrentHashMap<Integer, Classification> map = new ConcurrentHashMap<>();
         for (Classification c : list) {
             map.put(c.getId(), c);
         }
         return map;
     }
-    public static ArrayList<String> mapToStringList(ConcurrentHashMap<Integer, Classification> map) {
+    static ArrayList<String> mapToStringList(ConcurrentHashMap<Integer, Classification> map) {
         ArrayList<String> list = new ArrayList<>();
         for (Map.Entry<Integer, Classification> entry : map.entrySet()) {
             list.add(entry.getValue().getName());
@@ -120,10 +120,8 @@ class Classification {
         return list;
     }
 
-
-
     // Parcel definitions
-    /*protected Classification(Parcel in) {
+    protected Classification(Parcel in) {
         name = in.readString();
         id = in.readInt();
         visible = in.readByte() != 0;
@@ -150,5 +148,4 @@ class Classification {
             return new Action[size];
         }
     };
-    */
 }

@@ -154,10 +154,18 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
     // Runs when Enter is pressed
     public void enter(View view){
         // Creates new instance of an action and adds it to the list of actions.
         String name = answer.getText().toString();
+        if (name.equals("")) {
+            showToast("Name can't be empty!");
+            return;
+        }
         answer.setText("");
         Classification classification = Classification.getClassificationByName(classificationString);
         Log.e("Test", classification + "");
@@ -168,8 +176,13 @@ public class MainActivity extends AppCompatActivity {
     public void createClassification(View view){
         String name = classificationText.getText().toString();
 
+        //Safety checks
+        if (name.equals("")) {
+            showToast("Name can't be empty");
+            return;
+        }
         if (!Classification.createNew(name)) {
-            Toast.makeText(this, "Category already exists!", Toast.LENGTH_LONG).show();
+            showToast("Category already exists!");
             return;
         }
 
@@ -177,18 +190,17 @@ public class MainActivity extends AppCompatActivity {
         classificationText.setText("");
     }
 
-    // Kalder history function i xml
-    public void historya (View view){
+    public void historyActivity(View view){
         Intent hisintent = new Intent(this, HistoryActivity.class);
         startActivity(hisintent);
     }
 
-    public void settingpath(View view){
+    public void settingsActivity(View view){
         Intent hissettingpath = new Intent(this, CustomSettings.class);
         startActivity(hissettingpath);
     }
 
-    public void piepath(View view){
+    public void statisticsActivity(View view){
         Intent hisppath = new Intent(this, PieChartView.class);
         startActivity(hisppath);
     }

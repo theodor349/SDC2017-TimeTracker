@@ -74,6 +74,7 @@ class Action implements Parcelable {
         classification = (Classification) in.readValue(Classification.class.getClassLoader());
         long dateLong = in.readLong();
         date = dateLong != -1 ? new Date(dateLong) : null;
+        if (date == null) date = new Date();
     }
 
     public int describeContents() {

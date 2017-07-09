@@ -8,60 +8,40 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 
 public class CustomSettings extends Activity {
-
-    private EditText cataset;
-    private Button enter2;
-    private Button bremove;
     private Spinner spinner;
-    private EditText classificationText;
-    private EditText rename;
+    private EditText classificationEntry;
     private String classificationName;
     private String newName;
 
-
-    // Reference to files
-    private final String ACTIONS_FILENAME = "actions.xml";
-    private final String CLASSIFICATIONS_FILENAME = "classifications.xml";
-
-    private static String[] paths = {"Calendar Events", "Chores", "Educational", "Entertainment", "Family", "Friends", "Relaxation", "Sports", "Work"};
-
+    private static String[] spinnerStrings;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customsettings);
-
-        cataset = findViewById(R.id.classificationText);
-        enter2 = (Button) findViewById(R.id.adder);
-
-        bremove = (Button) findViewById(R.id.bremove);
-        //rename = (EditText) findViewById(R.id.renameTekst);
         layoutSetup();
-        getIntent();
     }
 
     private void layoutSetup() {
         // Dropdown.
-        spinner = (Spinner)findViewById(R.id.spinner);
-        classificationText = (EditText) findViewById(R.id.classificationText);
+        spinner = findViewById(R.id.spinner);
+        classificationEntry = findViewById(R.id.classificationText);
 
         setSpinner();
-
     }
 
-    private  void setSpinner(){
-        paths = Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
+    private void setSpinner(){
+        spinnerStrings = Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
 
         // Doing so the Array can be put into the Spinner
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,paths);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerStrings);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -69,7 +49,7 @@ public class CustomSettings extends Activity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                classificationName = paths[i];
+                classificationName = spinnerStrings[i];
             }
 
             @Override
@@ -79,8 +59,12 @@ public class CustomSettings extends Activity {
         });
     }
 
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
     public void adding(View view){
-        String name = classificationText.getText().toString();
+        String name = classificationEntry.getText().toString();
 
         if (!Classification.createNew(name)) {
             Toast.makeText(this, "Category already exists!", Toast.LENGTH_LONG).show();
@@ -88,7 +72,7 @@ public class CustomSettings extends Activity {
         }
 
         setSpinner();
-        classificationText.setText("");
+        classificationEntry.setText("");
     }
 
     public void remove(View view){
@@ -103,6 +87,7 @@ public class CustomSettings extends Activity {
         // Set text input
         final EditText inputText = new EditText(this);
         inputText.setInputType(InputType.TYPE_CLASS_TEXT);
+        inputText.setText(classificationName);
         builder.setView(inputText);
 
         // Define OK button
@@ -110,6 +95,17 @@ public class CustomSettings extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 newName = inputText.getText().toString();
+                if (newName.equals("")) {
+                    showToast("Name can't be empty");
+                }
+                if (Classification.getClassificationByName(newName) != null) {
+                    showToast("Name must be unique");
+                    return;
+                }
+                dialog.dismiss();
+                Classification c = Classification.getClassificationByName(classificationName);
+                c.setName(newName);
+                setSpinner();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -118,15 +114,7 @@ public class CustomSettings extends Activity {
                 dialog.cancel();
             }
         });
-
-        // Get classification and remove it from the map.
-        Classification c = Classification.getClassificationByName(classificationName);
-        // Set field member name value
-        c.setName(newName);
-        // Update spinner contents
-        setSpinner();
-        rename.setText("");
-        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+        builder.show();
     }
 
 }
