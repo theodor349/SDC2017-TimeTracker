@@ -7,8 +7,8 @@
         android:id="@+id/adder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp"
         android:onClick="adding"
         android:text="ADD"
         android:layout_alignTop="@+id/classificationText"
@@ -44,17 +44,15 @@
         android:layout_height="wrap_content"
         android:onClick="rename"
         android:text="Rename"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/adder"
-        android:layout_alignStart="@+id/adder" />
+        android:layout_alignTop="@+id/renameTekst"
+        android:layout_toRightOf="@+id/renameTekst"
+        android:layout_toEndOf="@+id/renameTekst" />
 
     <Button
         android:id="@+id/bremove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="19dp"
         android:onClick="remove"
         android:text="Remove"
         android:layout_below="@+id/brename"
@@ -68,7 +66,6 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/adder"
         android:layout_toStartOf="@+id/adder" />
 
     <Spinner
@@ -107,5 +104,57 @@
         android:layout_below="@+id/adder"
         android:layout_marginTop="11dp"
         android:text="Choose Catagory to rename" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Hej"
+        android:layout_below="@+id/bremove"
+        android:layout_alignLeft="@+id/bremove"
+        android:layout_alignStart="@+id/bremove"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/texttonotifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/renameTekst"
+        android:layout_alignStart="@+id/renameTekst"
+        android:layout_alignTop="@+id/toggleButton"
+        android:text="Do you want to be notified?" />
+
+    <EditText
+        android:id="@+id/editnotificationtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_alignBottom="@+id/notificationTexkEnter"
+        android:layout_alignLeft="@+id/texttonotifier"
+        android:layout_alignStart="@+id/texttonotifier" />
+
+    <TextView
+        android:id="@+id/notificationtext1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change time until next notification"
+        android:layout_above="@+id/editnotificationtime"
+        android:layout_alignLeft="@+id/editnotificationtime"
+        android:layout_alignStart="@+id/editnotificationtime"
+        android:layout_toLeftOf="@+id/adder"
+        android:layout_toStartOf="@+id/adder" />
+
+    <Button
+        android:id="@+id/notificationTexkEnter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="changenotificationtime"
+        android:text="Change"
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/toggleButton"
+        android:layout_alignLeft="@+id/toggleButton"
+        android:layout_alignStart="@+id/toggleButton" />
 
 </RelativeLayout>

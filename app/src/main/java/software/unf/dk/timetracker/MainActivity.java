@@ -1,8 +1,11 @@
 package software.unf.dk.timetracker;
 
 import android.content.Intent;
+import android.os.CountDownTimer;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private final String ACTIONS_FILENAME = "actions.xml";
     private final String CLASSIFICATIONS_FILENAME = "classifications.xml";
 
+
+
+    //Integers
+    private static Integer notificationtimes=1;
     // Input text boxes
     private EditText answer;
     private EditText classificationText;
@@ -42,13 +49,20 @@ public class MainActivity extends AppCompatActivity {
     private String classificationString;
     // String Array
     private static String[] paths;
+    //Boolean
+    private static Boolean wantnotification = true;
+
+    public static void setWantnotification(Boolean wantnotification) {
+        wantnotification = wantnotification;
+    }
+    public static void setNotificationtimes(Integer notificationtimes) {
+        MainActivity.notificationtimes = notificationtimes;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        test();
 
         loadData();
         layoutSetup();
@@ -72,6 +86,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         saveData();
+        if(wantnotification){
+            new CountDownTimer(notificationtimes*60*1000,1000){
+
+                public void onTick(long millisUntilFinished) {}
+
+                public void onFinish() {
+                    createNotification();
+                }
+
+            }.start();
+        }
+
     }
 
     /**
@@ -165,4 +191,34 @@ public class MainActivity extends AppCompatActivity {
         Intent hisppath = new Intent(this, PieChartView.class);
         startActivity(hisppath);
     }
+
+    public void createNotification (){
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_stat_name)
+                .setContentTitle("TimeTracker")
+                .setContentText("What are you doing");
+        // Creates an explicit intent for an Activity in your app
+        Intent resultIntent = new Intent(this, MainActivity.class);
+
+        // The stack builder object will contain an artificial back stack for the
+        // started Activity.
+        // This ensures that navigating backward from the Activity leads out of
+        // your application to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        // Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(MainActivity.class);
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // mId allows you to update the notification later on.
+        mNotificationManager.notify(3, mBuilder.build());
+    }
+
 }

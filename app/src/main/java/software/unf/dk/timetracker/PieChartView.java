@@ -1,6 +1,7 @@
 package software.unf.dk.timetracker;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,13 +12,16 @@ import android.widget.Spinner;
 
 //import com.github.mikephil.charting.charts.LineChart;
 //import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static software.unf.dk.timetracker.R.id.actionList;
 import static software.unf.dk.timetracker.R.id.piespinner;
 
 public class PieChartView extends AppCompatActivity {
@@ -34,6 +38,8 @@ public class PieChartView extends AppCompatActivity {
     private static String[] paths;
     //Spinners
     private Spinner pieChooser;
+    private final String ACTIONS_FILENAME = "actions.xml";
+    private final String CLASSIFICATIONS_FILENAME = "classifications.xml";
 
 
     @Override
@@ -73,7 +79,7 @@ public class PieChartView extends AppCompatActivity {
         );
     }
     /** Makes a Pie Chart**/
-    private void makePieChart(String title, String[] names, int[] amounts) {
+    private void makePieChart(String title, ArrayList<String> names, ArrayList<Integer> amounts) {
         PieDataSet dataSet = new PieDataSet(createEntries(names, amounts), title);
         dataSet.setColors(new int[] { R.color.neonpink, R.color.green, R.color.blue, R.color.lightgreen, R.color.red, R.color.yellow, R.color.lightblue, R.color.magenza, R.color.orange, R.color.turqoise, R.color.pumpkin, R.color.palepink, R.color.svump, R.color.darkpurple }, getApplicationContext());
         PieData data = new PieData(dataSet);
@@ -82,48 +88,41 @@ public class PieChartView extends AppCompatActivity {
 
     }
     /** Creates Entries to Pie Chart**/
-    private List<PieEntry> createEntries(String[] names, int[] amounts){
+    private List<PieEntry> createEntries(ArrayList<String> names, ArrayList<Integer> amounts) {
         List<PieEntry> result = new ArrayList<>();
 
-        for (int i = 0; i < names.length; i++) {
-            PieEntry entry = new PieEntry(amounts[i], names[i]);
+        if(amounts.size() != names.size()) {
+            throw new IllegalArgumentException("List of either amounts or names is not equal to each other and can there fore not be handled");
+        }
+
+        for (int i = 0; i < names.size(); i++) {
+            PieEntry entry = new PieEntry(amounts.get(i), names.get(i));
             result.add(entry);
         }
 
-        return  result;
+        return result;
     }
 
-    /**
-     *
-     * Button Input.
-     *
-     */
-/**
-    public void enter(View view){
-        // Creates new instance of an action and adds it to the list of actions.
-        String name = answer.getText().toString();
-        answer.setText("");
-        Classification classification = Classification.classificationMap.get(classificationString);
-        Date date = new Date();
-        Action.actionList.add(new Action(name, classification, date));
+    private void loadData() {
+        ClassificationIOHandler classificationIOHandler = new ClassificationIOHandler(new File(getFilesDir(), CLASSIFICATIONS_FILENAME));
+        Classification.classificationMap = Classification.listToMap(classificationIOHandler.parseClassifications());
+        ActionIOHandler actionIOHandler = new ActionIOHandler(new File(getFilesDir(), ACTIONS_FILENAME));
+        Action.actionList = actionIOHandler.parseActions();
     }
- **/
-    
 
     public void piechartInput(View view){
         String title = classificationString;
+        ArrayList<String> names = new ArrayList<String>();
+        ArrayList<Integer> amounts = new ArrayList<Integer>();
 
-        String[] names = new String[0];
-        
-        names[0] = "test0";
-        names[1] = "Test1";
-        names[2] = "Test2";
-        names[3] = "";
-        int[] amounts = new int[4];
-        amounts[0] = 10;
-        amounts[1] = 12;
-        amounts[2] = 22;
-        amounts[3] = 15;
+        for(Action action : Action.actionList){
+            if(classificationString.equals(action.getClassification().getName())){
+                //TODO Tjek om action.describeContents() er det rigtige at bruge her
+                amounts.add(action.describeContents());
+                names.add(action.getName());
+            }
+        }
+
         makePieChart(title, names, amounts);
     }
 

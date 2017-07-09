@@ -7,12 +7,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import java.io.File;
-
+import android.widget.ToggleButton;
 
 
 public class CustomSettings extends Activity {
@@ -23,8 +22,10 @@ public class CustomSettings extends Activity {
     private Spinner spinner;
     private EditText classificationText;
     private EditText rename;
+    private EditText notificationtimeText;
     private String tempCata;
     private String newName;
+    private ToggleButton togglebutton;
 
 
     // Reference to files
@@ -45,6 +46,9 @@ public class CustomSettings extends Activity {
 
         bremove = (Button) findViewById(R.id.bremove);
         rename = (EditText) findViewById(R.id.renameTekst);
+        togglebutton = (ToggleButton) findViewById(R.id.toggleButton);
+        notificationtimeText = (EditText) findViewById(R.id.editnotificationtime);
+
         layoutSetup();
 
 
@@ -118,5 +122,30 @@ public class CustomSettings extends Activity {
         rename.setText("");
 
     }
+    public void changenotificationtime(View view){
+        int temp;
+        try {
+            temp = Integer.parseInt(notificationtimeText.getText().toString());
+        } catch (Exception e){
+            Log.e("Change Time", e.toString());
+            return;
+        }
+        MainActivity.setNotificationtimes(temp);
+        notificationtimeText.setText("");
 
+    }
+
+    public void setTogglebutton(){
+        togglebutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    MainActivity.setWantnotification(true);
+                } else {
+                    MainActivity.setWantnotification(false);
+                }
+            }
+
+        });
+
+    }
 }

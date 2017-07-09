@@ -65,7 +65,7 @@ public class HistoryActivity extends Activity{
         DateFormat dateFormat = new SimpleDateFormat("dd/MM yyyy", Locale.ENGLISH);
         // TODO: use the date class, to get the data.
         //       Then set the new date as currShownDate. (As of yet it ain't working)
-        currShownDate = "08/07 2017";
+        currShownDate = dateFormat.format(new Date());
 
 
 
