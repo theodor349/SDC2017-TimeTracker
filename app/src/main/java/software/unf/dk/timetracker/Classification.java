@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-class Classification implements Parcelable {
+class Classification {
     // Static.
     public static ConcurrentHashMap<Integer, Classification> classificationMap = new ConcurrentHashMap<>();
 
@@ -121,7 +121,7 @@ class Classification implements Parcelable {
     }
 
     // Parcel definitions
-    protected Classification(Parcel in) {
+    /*protected Classification(Parcel in) {
         name = in.readString();
         id = in.readInt();
         visible = in.readByte() != 0;
@@ -147,5 +147,5 @@ class Classification implements Parcelable {
         public Action[] newArray(int size) {
             return new Action[size];
         }
-    };
+    };*/
 }

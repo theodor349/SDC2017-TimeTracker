@@ -112,15 +112,10 @@ public class PieChartView extends AppCompatActivity {
 
     public void piechartInput(View view){
         String title = classificationString;
-        ArrayList<String> names = new ArrayList<String>();
-        ArrayList<Integer> amounts = new ArrayList<Integer>();
-
-        for(Action action : Action.actionList){
-            if(classificationString.equals(action.getClassification().getName())){
-                //TODO Tjek om action.describeContents() er det rigtige at bruge her
-                amounts.add(action.describeContents());
-                names.add(action.getName());
-            }
+        ArrayList<String> names = Action.getNames(classificationString);
+        ArrayList<Integer> amounts = new ArrayList<>();
+        for (String name : names) {
+            amounts.add(Action.getAmount(name));
         }
 
         makePieChart(title, names, amounts);

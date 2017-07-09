@@ -1,5 +1,8 @@
 package software.unf.dk.timetracker;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v4.app.TaskStackBuilder;
@@ -13,18 +16,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.security.PrivateKey;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     // Strings
     private String classificationString;
     // String Array
-    private static String[] paths;
+    private static String[] spinnerStrings;
     //Boolean
     private static Boolean wantnotification = true;
 
@@ -132,11 +127,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setSpinner(){
-        paths = Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
+        spinnerStrings = Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
 
         // Doing so the Array can be put into the Spinner
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this,
-                android.R.layout.simple_spinner_item,paths);
+                android.R.layout.simple_spinner_item, spinnerStrings);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -145,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 // Set string to selected spinner value
-                classificationString = paths[i];
+                classificationString = spinnerStrings[i];
             }
 
             @Override

@@ -106,8 +106,9 @@ class ActionIOHandler extends IOHandler {
                     Log.w("TimeTracker", "Illegal date string, assuming now");
                     date = new Date();
                 }
+                String description = actionElement.getTextContent();
                 // Create action with values
-                Action action = new Action(name, classification, date);
+                Action action = new Action(name, classification, date, description);
                 actionList.add(action);
             }
         } catch (IOException e) {
@@ -147,6 +148,10 @@ class ActionIOHandler extends IOHandler {
             Attr timeAttribute = document.createAttribute("time");
             timeAttribute.setValue(Action.dateToString(action.getDate()));
             actionElement.setAttributeNode(timeAttribute);
+            String description = action.getDescription();
+            description = description.replace(">", "");
+            description = description.replace("<", "");
+            actionElement.setTextContent(description);
 
             // Add element to root
             root.appendChild(actionElement);

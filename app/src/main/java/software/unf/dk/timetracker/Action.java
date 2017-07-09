@@ -14,12 +14,13 @@ import java.util.Locale;
 /***
  * Class for handling user activities
  */
-class Action implements Parcelable {
+class Action {
     public static ArrayList<Action> actionList = new ArrayList<>();
 
     private String name;
     private Classification classification;
     private Date date;
+    private String description;
 
     private static final DateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.ENGLISH);
 
@@ -27,6 +28,12 @@ class Action implements Parcelable {
         this.name = name;
         this.classification = classification;
         this.date = date;
+    }
+    public Action(String name, Classification classification, Date date, String description) {
+        this.name = name;
+        this.classification = classification;
+        this.date = date;
+        this.description = description;
     }
 
     /**
@@ -55,21 +62,51 @@ class Action implements Parcelable {
     public void setDate(Date date) {
         this.date = date;
     }
-    public static String dateToString(Date date) {
+    static String dateToString(Date date) {
         return DATETIME_FORMAT.format(date);
     }
-    public static Date stringToDate(String string) {
-        try{
+    static Date stringToDate(String string) {
+        try {
             return DATETIME_FORMAT.parse(string);
-        }
-        catch (ParseException e){
+        } catch (ParseException e){
             Log.e("Error", "Failed to parse date string.");
             return null;
         }
     }
 
+    // Description
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    static ArrayList<String> getNames() {
+        ArrayList<String> names = new ArrayList<>();
+        for (Action a : actionList) {
+            if (!names.contains(a.getName())) names.add(a.getName());
+        }
+        return names;
+    }
+    static ArrayList<String> getNames(String classification) {
+        ArrayList<String> names = new ArrayList<>();
+        for (Action a : actionList) {
+            if (!names.contains(a.getName()) && a.getClassification().getName().equals(classification))
+                names.add(a.getName());
+        }
+        return names;
+    }
+    static int getAmount(String name) {
+        int i = 0;
+        for (Action a : actionList) {
+            if (a.getName().equals(name)) i++;
+        }
+        return i;
+    }
+
     // Parcel functions
-    protected Action(Parcel in) {
+    /*protected Action(Parcel in) {
         name = in.readString();
         classification = (Classification) in.readValue(Classification.class.getClassLoader());
         long dateLong = in.readLong();
@@ -97,5 +134,5 @@ class Action implements Parcelable {
         public Action[] newArray(int size) {
             return new Action[size];
         }
-    };
+    };*/
 }

@@ -1,8 +1,9 @@
 package software.unf.dk.timetracker;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -26,18 +27,15 @@ import java.util.Locale;
 
 enum WhatToShow {ALL, DAY, WEEK, MONTH, YEAR}
 public class HistoryActivity extends Activity{
+    private String[] classificationSpinnerStrings;
+    private String classificationString;
 
     /**
      * UI
      */
     // List.
     private ListView actionListView;
-    // Buttons.
-    private Button oneLessDayB;
-    private Button oneExtraDayB;
-    private Button oneLessMonthB;
-    private Button oneExtraMonthB;
-    private Button todayB;
+
     // Text view.
     private TextView showDate;
 
@@ -57,6 +55,15 @@ public class HistoryActivity extends Activity{
         layoutSetup();
     }
 
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ActionViewerActivity.ACTION_VIEW_REQUEST && resultCode == RESULT_OK) {
+            String name = data.getStringExtra(ActionViewerActivity.ACTION_NAME_EXTRA);
+            Classification classification = Classification.getClassificationByName(data.getStringExtra(ActionViewerActivity.ACTION_CLASS_NAME_EXTRA));
+
+        }
+    }*/
+
     private void layoutSetup() {
         setReferences();
         Date date = new Date(); // Gets right now
@@ -66,6 +73,7 @@ public class HistoryActivity extends Activity{
     }
 
     private void updateView(){
+        final Context context = this;
         showDate.setText(currShownDate);
         Action[] values = setValues(WhatToShow.DAY, currShownDate);
 
@@ -75,11 +83,65 @@ public class HistoryActivity extends Activity{
         actionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Action action = (Action) actionListView.getItemAtPosition(position);
-                Intent intent = new Intent(HistoryActivity.this, ActionViewerActivity.class);
-                intent.putExtra(ActionViewerActivity.ACTION_EXTRA, action);
-                // FIXME: Implement this so it doesn't crash
-                //startActivity(intent);
+                final Action action = (Action) actionListView.getItemAtPosition(position);
+
+                // Build dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Edit entry");
+                View viewInflated = LayoutInflater.from(context).inflate(R.layout.activity_action_view, parent, false);
+                final TextView actionText = viewInflated.findViewById(R.id.actionText);
+                final TextView descriptionText = viewInflated.findViewById(R.id.descriptionText);
+                final TextView timeText = viewInflated.findViewById(R.id.timeText);
+                Spinner classificationSpinner = viewInflated.findViewById(R.id.classificationSpinner);
+                actionText.setText(action.getName());
+                descriptionText.setText(action.getDescription());
+                timeText.setText(action.getDate().toString());
+
+                // Set spinner
+                classificationSpinnerStrings = Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
+                // Create adapter to translate string array into spinner contents
+                final ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
+                        android.R.layout.simple_spinner_item, classificationSpinnerStrings);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                classificationSpinner.setAdapter(adapter);
+                // Listen to things happens on the Spinner
+                classificationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        // Set string to selected spinner value
+                        classificationString = classificationSpinnerStrings[i];
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) { }
+                });
+                // Done setting spinner
+                builder.setView(viewInflated);
+
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        action.setName(actionText.getText().toString());
+                        action.setClassification(Classification.getClassificationByName(classificationString));
+                        action.setDescription(descriptionText.getText().toString());
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+
+                /*Intent intent = new Intent(HistoryActivity.this, ActionViewerActivity.class);
+                intent.putExtra(ActionViewerActivity.ACTION_NAME_EXTRA, action.getName());
+                intent.putExtra(ActionViewerActivity.ACTION_CLASS_NAME_EXTRA, action.getClassification().getName());
+                intent.putExtra(ActionViewerActivity.ACTION_DATE_EXTRA, action.getDate().getTime());
+                intent.putExtra(ActionViewerActivity.LIST_POSITION_EXTRA)
+                startActivityForResult(intent, ActionViewerActivity.ACTION_VIEW_REQUEST);*/
             }
         });
     }
@@ -87,12 +149,6 @@ public class HistoryActivity extends Activity{
     private void setReferences(){
         // List.
         actionListView = findViewById(R.id.actionList);
-
-        // Buttons.
-        oneExtraDayB = findViewById(R.id.oneExtraDayB);
-        oneLessDayB = findViewById(R.id.onelessDayB);
-        oneExtraMonthB = findViewById(R.id.oneExtraMonthB);
-        oneLessMonthB = findViewById(R.id.oneLessMonthB);
 
         // Text view.
         showDate = findViewById(R.id.showDate);
@@ -267,7 +323,7 @@ class ActionArrayAdapter extends ArrayAdapter<Action> {
     private final Context context;
     private final Action[] values;
 
-    public ActionArrayAdapter(Context context, Action[] values) {
+    ActionArrayAdapter(Context context, Action[] values) {
         super(context, -1, values);
         this.context = context;
         this.values = values;
@@ -279,10 +335,10 @@ class ActionArrayAdapter extends ArrayAdapter<Action> {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.history_action_row, parent, false);
-        TextView nameText = (TextView) convertView.findViewById(R.id.nameText);
-        TextView timeText = (TextView) convertView.findViewById(R.id.timeText);
-        TextView dateText = (TextView) convertView.findViewById(R.id.dateText);
-        TextView classificationText = (TextView) convertView.findViewById(R.id.classificationText);
+        TextView nameText = convertView.findViewById(R.id.nameText);
+        TextView timeText = convertView.findViewById(R.id.timeText);
+        TextView dateText = convertView.findViewById(R.id.dateText);
+        TextView classificationText = convertView.findViewById(R.id.classificationText);
 
         DateFormat dateFormat = new SimpleDateFormat("EEE, dd/MM yyyy", Locale.ENGLISH);
         DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);

@@ -88,6 +88,7 @@ public class CustomSettings extends Activity {
         final EditText inputText = new EditText(this);
         inputText.setInputType(InputType.TYPE_CLASS_TEXT);
         inputText.setText(classificationName);
+        inputText.setSelectAllOnFocus(true);
         builder.setView(inputText);
 
         // Define OK button
