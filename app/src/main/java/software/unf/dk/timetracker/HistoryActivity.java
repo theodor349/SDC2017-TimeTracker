@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +22,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
-import static software.unf.dk.timetracker.WhatToShow.DAY;
 
 enum WhatToShow {ALL, DAY, WEEK, MONTH, YEAR}
 public class HistoryActivity extends Activity{
@@ -49,6 +45,8 @@ public class HistoryActivity extends Activity{
      */
     private String currShownDate;
 
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM yyyy", Locale.ENGLISH);
+
 
 
     @Override
@@ -59,17 +57,14 @@ public class HistoryActivity extends Activity{
     }
 
     private void layoutSetup() {
-        setRefernces();
-
-        final Context context = this;
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM yyyy", Locale.ENGLISH);
+        setReferences();
         Date date = new Date(); // Gets right now
         currShownDate = dateFormat.format(date);
 
-        upDateView();
+        updateView();
     }
 
-    private  void upDateView(){
+    private void updateView(){
         showDate.setText(currShownDate);
         Action[] values = setValues(WhatToShow.DAY, currShownDate);
 
@@ -86,7 +81,7 @@ public class HistoryActivity extends Activity{
         });
     }
 
-    private void setRefernces(){
+    private void setReferences(){
         // List.
         actionListView = findViewById(R.id.actionList);
 
@@ -112,7 +107,8 @@ public class HistoryActivity extends Activity{
                 values = getDayData(date);
                 break;
             case WEEK:
-                values = getWeekData(date);
+                //values = getWeekData(date);
+                values = new ArrayList<>();
                 break;
             case MONTH:
                 values = getMonthData(date);
@@ -125,8 +121,7 @@ public class HistoryActivity extends Activity{
         // Make the list a array.
         Action[] result = values.toArray(new Action[0]);
         //  Reverse the array.
-        for(int i = 0; i < result.length / 2; i++)
-        {
+        for(int i = 0; i < result.length / 2; i++) {
             Action temp = result[i];
             result[i] = result[result.length - i - 1];
             result[result.length - i - 1] = temp;
@@ -142,23 +137,23 @@ public class HistoryActivity extends Activity{
             // Get the date of the acton.
             String aDate = dateFormat.format(a.getDate());
             // Is it the day we are looking after? Yes, then add it.
-            if(aDate.equals(date)){
+            if (aDate.equals(date)) {
                 result.add(a);
             }
         }
         return result;
     }
 
-    private ArrayList<Action> getWeekData(String date){
+    /*private ArrayList<Action> getWeekData(String date){
         ArrayList<Action> result = new ArrayList<>();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM yyyy", Locale.ENGLISH);
 
-        /**
-         * Not Yet working.
-         */
 
-        return result;
-    }
+        // Not Yet working.
+
+
+        //return result;
+        return new ArrayList<>();
+    }*/
 
     private ArrayList<Action> getMonthData(String month){
         ArrayList<Action> result = new ArrayList<>();
@@ -191,82 +186,72 @@ public class HistoryActivity extends Activity{
         return result;
     }
 
-    /**
-     *
+    /*
      * For Button Input.
-     *
      */
-
     public void oneExtraDay(View view){
         // Add a day to the current date displayed.
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM yyyy");
         Calendar c = Calendar.getInstance();
         try{
-            c.setTime(sdf.parse(currShownDate));
+            c.setTime(dateFormat.parse(currShownDate));
         }
         catch (ParseException e){
             return;
         }
 
         c.add(Calendar.DATE, 1);  // number of days to add
-        currShownDate = sdf.format(c.getTime());  // currShownDate is now the new date
+        currShownDate = dateFormat.format(c.getTime());  // currShownDate is now the new date
         // Update display.
-        upDateView();
+        updateView();
     }
     public void oneLessDay(View view){
         // Add a day to the current date displayed.
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM yyyy");
         Calendar c = Calendar.getInstance();
-        try{
-            c.setTime(sdf.parse(currShownDate));
-        }
-        catch (ParseException e){
+        try {
+            c.setTime(dateFormat.parse(currShownDate));
+        } catch (ParseException e) {
             return;
         }
 
         c.add(Calendar.DATE, -1);  // number of days to add
-        currShownDate = sdf.format(c.getTime());  // currShownDate is now the new date
+        currShownDate = dateFormat.format(c.getTime());  // currShownDate is now the new date
         // Update display.
-        upDateView();
+        updateView();
     }
 
     public void oneExtraMonth(View view){
         // Add a month to the current date displayed.
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM yyyy");
         Calendar c = Calendar.getInstance();
-        try{
-            c.setTime(sdf.parse(currShownDate));
-        }
-        catch (ParseException e){
+        try {
+            c.setTime(dateFormat.parse(currShownDate));
+        } catch (ParseException e){
             return;
         }
 
         c.add(Calendar.DATE, 30);  // number of days to add
-        currShownDate = sdf.format(c.getTime());  // dt is now the new date
+        currShownDate = dateFormat.format(c.getTime());  // dt is now the new date
         // Update display.
-        upDateView();
+        updateView();
     }
     public void oneLessMonth(View view){
         // Add a day to the current date displayed.
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM yyyy");
         Calendar c = Calendar.getInstance();
         try{
-            c.setTime(sdf.parse(currShownDate));
+            c.setTime(dateFormat.parse(currShownDate));
         }
         catch (ParseException e){
             return;
         }
 
         c.add(Calendar.DATE, -30);  // number of days to add
-        currShownDate = sdf.format(c.getTime());  // currShownDate is now the new date
+        currShownDate = dateFormat.format(c.getTime());  // currShownDate is now the new date
         // Update display.
-        upDateView();
+        updateView();
     }
 
     public void setDateToday(View view){
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM yyyy", Locale.ENGLISH);
         currShownDate = dateFormat.format(new Date());
-        upDateView();
+        updateView();
     }
 
 }
