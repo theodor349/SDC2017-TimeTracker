@@ -63,19 +63,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //test();
 
         loadData();
         layoutSetup();
     }
 
     // Used for testing ONLY!
-    /*private void test(){
+    private void test(){
         File file = new File(getFilesDir(), CLASSIFICATIONS_FILENAME);
         file.delete();
 
         file = new File(getFilesDir(), ACTIONS_FILENAME);
         file.delete();
-    }*/
+    }
 
     protected void onResume(){
         super.onResume();

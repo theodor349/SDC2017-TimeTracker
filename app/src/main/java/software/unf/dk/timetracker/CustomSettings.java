@@ -5,16 +5,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 
 public class CustomSettings extends Activity {
@@ -25,10 +22,8 @@ public class CustomSettings extends Activity {
     private Spinner spinner;
     private EditText classificationText;
     private EditText rename;
-    private EditText notificationtimeText;
-    private String tempCata;
+    private String classificationName;
     private String newName;
-    private ToggleButton togglebutton;
 
 
     // Reference to files
@@ -66,25 +61,22 @@ public class CustomSettings extends Activity {
         paths = Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
 
         // Doing so the Array can be put into the Spinner
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item,paths);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,paths);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         // Listen to things happens on the Spinner
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                              @Override
-                                              public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                                  tempCata = paths[i];
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                classificationName = paths[i];
+            }
 
-                                              }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-                                              @Override
-                                              public void onNothingSelected(AdapterView<?> adapterView) {
-
-                                              }
-                                          }
-        );
+            }
+        });
     }
 
     public void adding(View view){
@@ -128,7 +120,7 @@ public class CustomSettings extends Activity {
         });
 
         // Get classification and remove it from the map.
-        Classification c = Classification.getClassificationByName(tempCata);
+        Classification c = Classification.getClassificationByName(classificationName);
         // Set field member name value
         c.setName(newName);
         // Update spinner contents
@@ -136,30 +128,5 @@ public class CustomSettings extends Activity {
         rename.setText("");
         Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
     }
-    public void changenotificationtime(View view){
-        int temp;
-        try {
-            temp = Integer.parseInt(notificationtimeText.getText().toString());
-        } catch (Exception e){
-            Log.e("Change Time", e.toString());
-            return;
-        }
-        MainActivity.setNotificationtimes(temp);
-        notificationtimeText.setText("");
 
-    }
-
-    public void setTogglebutton(){
-        togglebutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    MainActivity.setWantnotification(true);
-                } else {
-                    MainActivity.setWantnotification(false);
-                }
-            }
-
-        });
-
-    }
 }
