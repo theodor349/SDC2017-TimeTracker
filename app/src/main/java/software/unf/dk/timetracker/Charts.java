@@ -1,7 +1,5 @@
 package software.unf.dk.timetracker;
 
-import android.content.Context;
-
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -9,6 +7,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.util.ArrayList;
@@ -19,69 +18,45 @@ public class Charts {
 
     /**
      * Pie Chart.
+     *
+     * Code for implementing it in an Instance.
+
+     // If there is a reference to a chart, this will set all the values.
+     private void makePieChart(String title, ArrayList<String> names, ArrayList<Integer> amounts, PieChart pieChart) {
+         int[] colors = new int[] { R.color.neonpink, R.color.green, R.color.blue, R.color.lightgreen, R.color.red, R.color.yellow, R.color.lightblue, R.color.magenza, R.color.orange, R.color.turqoise, R.color.pumpkin, R.color.palepink, R.color.svump, R.color.darkpurple }, getApplicationContext;
+         PieDataSet dataSet = new PieDataSet(Charts.createEntries(names, amounts), title);
+         dataSet.setColors(colors, this);
+         PieData data = new PieData(dataSet);
+         pieChart.setData(data);
+         pieChart.invalidate(); // refresh
+     }
+
+     *
      */
+    public static List<PieEntry> createEntries(ArrayList<String> names, ArrayList<Integer> amounts) {
+        List<PieEntry> result = new ArrayList<>();
+        if(amounts.size() != names.size()) {
+            throw new IllegalArgumentException("List of either amounts or names is not equal to each other and can there fore not be handled");
+        }
+        for (int i = 0; i < names.size(); i++) {
+            PieEntry entry = new PieEntry(amounts.get(i), names.get(i));
+            result.add(entry);
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return result;
+    }
 
 
 
     /**
      * Line Chart.
-     *
-     * To create a chart in another instance you need thees two lines.
-     *          lineChart.setData(Charts.createLineData(title, amounts));
-     *          lineChart.invalidate();
      */
 
     /**
      * Code for implementing it in an Instance.
      *
 
-     // If there is a reference to a chart, this will set all the alues.
+     // If there is a reference to a chart, this will set all the values.
      private void makeLineChart(String title, ArrayList<Integer> amounts, LineChart lineChart) {
          // Creates the "chart" as in where it is placed. (A reference)
          lineChart.setData(Charts.createLineData(title, amounts));

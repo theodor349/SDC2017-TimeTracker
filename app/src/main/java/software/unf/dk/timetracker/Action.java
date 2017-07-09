@@ -104,6 +104,13 @@ class Action {
         }
         return i;
     }
+    static ArrayList<Action> getAllWithName(String name) {
+        ArrayList<Action> list = new ArrayList<>();
+        for (Action a : actionList) {
+            if (a.getName().equals(name)) list.add(a);
+        }
+        return list;
+    }
 
     // Parcel functions
     /*protected Action(Parcel in) {

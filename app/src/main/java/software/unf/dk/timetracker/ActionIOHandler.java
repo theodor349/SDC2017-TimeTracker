@@ -149,8 +149,6 @@ class ActionIOHandler extends IOHandler {
             timeAttribute.setValue(Action.dateToString(action.getDate()));
             actionElement.setAttributeNode(timeAttribute);
             String description = action.getDescription();
-            description = description.replace(">", "");
-            description = description.replace("<", "");
             actionElement.setTextContent(description);
 
             // Add element to root

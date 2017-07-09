@@ -1,13 +1,11 @@
 package software.unf.dk.timetracker;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
 //import com.github.mikephil.charting.charts.LineChart;
@@ -15,14 +13,8 @@ import android.widget.Spinner;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
-
-import static software.unf.dk.timetracker.R.id.actionList;
-import static software.unf.dk.timetracker.R.id.piespinner;
 
 public class PieChartView extends AppCompatActivity {
 
@@ -30,8 +22,6 @@ public class PieChartView extends AppCompatActivity {
 
 
     //Varibles
-    // Buttons
-    private Button button;
     //Strings
     private String classificationString;
     //Strings Arrays
@@ -45,14 +35,35 @@ public class PieChartView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_piechart);
+        setContentView(R.layout.activity_statistics);
         setReference();
+        createdummychart();
     }
+
+    private void createdummychart(){
+        String title = "sport";
+        ArrayList<String> names = new ArrayList<>();
+
+        names.add("Fodbold");
+        names.add("Swimming");
+        names.add("Running");
+        names.add("Basket");
+        names.add("Rugby");
+
+        ArrayList<Integer> amounts = new ArrayList<>();
+        amounts.add(5);
+        amounts.add(6);
+        amounts.add(7);
+        amounts.add(4);
+        amounts.add(3);
+
+        makePieChart(title, names, amounts, pieChart);
+    }
+
     private void setReference(){
-        button =(Button)  findViewById(R.id.button);
-        pieChart = (com.github.mikephil.charting.charts.PieChart) findViewById(R.id.pie);
-        setSpinner();
+        /*pieChart = (com.github.mikephil.charting.charts.PieChart) findViewById(R.id.pie);
         pieChooser = (Spinner) findViewById(piespinner);
+        setSpinner();*/
     }
 
     /** Setter Spinner**/
@@ -78,36 +89,15 @@ public class PieChartView extends AppCompatActivity {
                                           }
         );
     }
-    /** Makes a Pie Chart**/
-    private void makePieChart(String title, ArrayList<String> names, ArrayList<Integer> amounts) {
-        PieDataSet dataSet = new PieDataSet(createEntries(names, amounts), title);
-        dataSet.setColors(new int[] { R.color.neonpink, R.color.green, R.color.blue, R.color.lightgreen, R.color.red, R.color.yellow, R.color.lightblue, R.color.magenza, R.color.orange, R.color.turqoise, R.color.pumpkin, R.color.palepink, R.color.svump, R.color.darkpurple }, getApplicationContext());
+
+    // If there is a reference to a chart, this will set all the values.
+    private void makePieChart(String title, ArrayList<String> names, ArrayList<Integer> amounts, PieChart pieChart) {
+        int[] colors = new int[] { R.color.neonpink, R.color.green, R.color.blue, R.color.lightgreen, R.color.red, R.color.yellow, R.color.lightblue, R.color.magenza, R.color.orange, R.color.turqoise, R.color.pumpkin, R.color.palepink, R.color.svump, R.color.darkpurple }, getApplicationContext;
+        PieDataSet dataSet = new PieDataSet(Charts.createEntries(names, amounts), title);
+        dataSet.setColors(colors, this);
         PieData data = new PieData(dataSet);
         pieChart.setData(data);
         pieChart.invalidate(); // refresh
-
-    }
-    /** Creates Entries to Pie Chart**/
-    private List<PieEntry> createEntries(ArrayList<String> names, ArrayList<Integer> amounts) {
-        List<PieEntry> result = new ArrayList<>();
-
-        if(amounts.size() != names.size()) {
-            throw new IllegalArgumentException("List of either amounts or names is not equal to each other and can there fore not be handled");
-        }
-
-        for (int i = 0; i < names.size(); i++) {
-            PieEntry entry = new PieEntry(amounts.get(i), names.get(i));
-            result.add(entry);
-        }
-
-        return result;
-    }
-
-    private void loadData() {
-        ClassificationIOHandler classificationIOHandler = new ClassificationIOHandler(new File(getFilesDir(), CLASSIFICATIONS_FILENAME));
-        Classification.classificationMap = Classification.listToMap(classificationIOHandler.parseClassifications());
-        ActionIOHandler actionIOHandler = new ActionIOHandler(new File(getFilesDir(), ACTIONS_FILENAME));
-        Action.actionList = actionIOHandler.parseActions();
     }
 
     public void piechartInput(View view){
@@ -118,7 +108,7 @@ public class PieChartView extends AppCompatActivity {
             amounts.add(Action.getAmount(name));
         }
 
-        makePieChart(title, names, amounts);
+//        makePieChart(title, names, amounts);
     }
 
 }

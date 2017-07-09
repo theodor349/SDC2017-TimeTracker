@@ -196,7 +196,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void statisticsActivity(View view){
-        Intent hisppath = new Intent(this, PieChartView.class);
+        Log.e("hej", "jeg sker");
+        Intent hisppath = new Intent(this, StatisticsActivity.class);
         startActivity(hisppath);
     }
 
