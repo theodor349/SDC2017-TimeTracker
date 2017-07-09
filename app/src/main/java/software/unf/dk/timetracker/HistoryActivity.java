@@ -31,7 +31,7 @@ enum WhatToShow {ALL, DAY, WEEK, MONTH, YEAR}
 public class HistoryActivity extends Activity{
 
     /**
-     * UI.
+     * UI
      */
     // List.
     private ListView actionListView;
@@ -45,7 +45,7 @@ public class HistoryActivity extends Activity{
     private TextView showDate;
 
     /**
-     * Data.
+     * Currently shown date in string form
      */
     private String currShownDate;
 
@@ -63,13 +63,8 @@ public class HistoryActivity extends Activity{
 
         final Context context = this;
         DateFormat dateFormat = new SimpleDateFormat("dd/MM yyyy", Locale.ENGLISH);
-        // TODO: use the date class, to get the data.
-        //       Then set the new date as currShownDate. (As of yet it ain't working)
-        currShownDate = "08/07 2017";
-
-
-
-
+        Date date = new Date(); // Gets right now
+        currShownDate = dateFormat.format(date);
 
         upDateView();
     }
