@@ -26,14 +26,7 @@ public class CustomSettings extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customsettings);
-
-        cataset = findViewById(R.id.classificationText);
-        enter2 = findViewById(R.id.adder);
-
-        bremove = findViewById(R.id.bremove);
-        //rename = (EditText) findViewById(R.id.renameTekst);
         layoutSetup();
-        getIntent();
     }
 
     private void layoutSetup() {
@@ -90,7 +83,7 @@ public class CustomSettings extends Activity {
         // Set text input
         final EditText inputText = new EditText(this);
         inputText.setInputType(InputType.TYPE_CLASS_TEXT);
-        inputText.setHint(classificationName);
+        inputText.setText(classificationName);
         builder.setView(inputText);
 
         // Define OK button
