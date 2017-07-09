@@ -28,7 +28,7 @@ import javax.xml.transform.stream.StreamResult;
  *
  * File syntax:
  * <actions>
- *     <action name="" classification="0" time=""/>
+ *     <action name="" classification="" time=""/>
  * </actions>
  */
 
@@ -97,20 +97,14 @@ class ActionIOHandler extends IOHandler {
                 // Get name
                 String name = actionElement.getAttribute("name");
                 // Get classification
-                int id;
-                try {
-                    id = Integer.parseInt(actionElement.getAttribute("id"));
-                } catch (NumberFormatException e) {
-                    Log.w("TimeTracker", "Warning: failed to parse classification id, getting a new one");
-                    id = Classification.getUniqueId();
-                }
-                Classification classification = Classification.classificationMap.get(id);
+                Classification classification = Classification.getClassificationByName(actionElement.getAttribute("classification"));
                 // Get time
                 String dateString = actionElement.getAttribute("time");
                 Log.i("Info", "dateString is: " + dateString);
                 Date date = Action.stringToDate(dateString);
                 if (date == null) {
                     Log.w("TimeTracker", "Illegal date string, assuming now");
+                    date = new Date();
                 }
                 // Create action with values
                 Action action = new Action(name, classification, date);
@@ -147,7 +141,7 @@ class ActionIOHandler extends IOHandler {
             actionElement.setAttributeNode(nameAttribute);
 
             Attr classAttribute = document.createAttribute("classification");
-            classAttribute.setValue(Integer.toString(action.getClassification().getId()));
+            classAttribute.setValue(action.getClassification().getName());
             actionElement.setAttributeNode(classAttribute);
 
             Attr timeAttribute = document.createAttribute("time");
