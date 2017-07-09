@@ -135,6 +135,10 @@ class ClassificationIOHandler extends IOHandler {
             nameAttribute.setValue(classification.getName());
             classificationElement.setAttributeNode(nameAttribute);
 
+            Attr idAttribute = document.createAttribute("id");
+            idAttribute.setValue(Integer.toString(classification.getId()));
+            classificationElement.setAttributeNode(idAttribute);
+
             // Add element to root
             root.appendChild(classificationElement);
         }

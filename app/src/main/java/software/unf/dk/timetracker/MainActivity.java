@@ -48,20 +48,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        test();
-
         loadData();
         layoutSetup();
     }
 
     // Used for testing ONLY!
-    private void test(){
+    /*private void test(){
         File file = new File(getFilesDir(), CLASSIFICATIONS_FILENAME);
         file.delete();
 
         file = new File(getFilesDir(), ACTIONS_FILENAME);
         file.delete();
-    }
+    }*/
 
     protected void onResume(){
         super.onResume();
@@ -105,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setSpinner(){
-        paths = (String[]) Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
+        paths = Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
 
         // Doing so the Array can be put into the Spinner
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this,
@@ -130,9 +128,9 @@ public class MainActivity extends AppCompatActivity {
     // Runs when Enter is pressed
     public void enter(View view){
         // Creates new instance of an action and adds it to the list of actions.
-        String name = classificationString;
+        String name = answer.getText().toString();
         answer.setText("");
-        Classification classification = Classification.getClassificationByName(name);
+        Classification classification = Classification.getClassificationByName(classificationString);
         Log.e("Test", classification + "");
         Date date = new Date();
         Action.actionList.add(new Action(name, classification, date));
