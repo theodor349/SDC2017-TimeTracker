@@ -19,8 +19,6 @@ import java.util.Date;
  * Handles processing of XML Files.
  */
 
-// TODO: compartmentalize into ActionIOHandler and CategoryIOHandler?
-
 public class IOHandler {
 
     protected File file;

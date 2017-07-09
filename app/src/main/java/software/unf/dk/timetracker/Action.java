@@ -27,9 +27,6 @@ class Action implements Parcelable {
         this.name = name;
         this.classification = classification;
         this.date = date;
-
-        // Tell classification a new instance of action have been made.
-        classification.addAction(this);
     }
 
     /**
@@ -75,8 +72,8 @@ class Action implements Parcelable {
     protected Action(Parcel in) {
         name = in.readString();
         classification = (Classification) in.readValue(Classification.class.getClassLoader());
-        long tmpDate = in.readLong();
-        date = tmpDate != -1 ? new Date(tmpDate) : null;
+        long dateLong = in.readLong();
+        date = dateLong != -1 ? new Date(dateLong) : null;
     }
 
     public int describeContents() {

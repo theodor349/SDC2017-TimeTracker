@@ -27,17 +27,17 @@ import javax.xml.transform.stream.StreamResult;
  *
  * File syntax:
  * <classifications>
- *     <classification name="User facing name"/>
+ *     <classification id="0" name="User facing name" visible="(true|false)"/>
  * </classifications>
  */
 
 class ClassificationIOHandler extends IOHandler {
-    private final String DOCUMENT_HEADER = "<?xml version=\"1.0\"?>\n<classifications>\n<classification name=\"default\"/>\n</classification>";
+    private final String DOCUMENT_HEADER = "<?xml version=\"1.0\"?>\n<classifications>\n<classification name=\"Default\" id=\"0\" visible=\"true\"/>\n</classifications>";
     public ClassificationIOHandler(File file) {
         super(file);
         try {
             // Create file if it doesn't exist
-            if (file.createNewFile()) {
+            if (file.createNewFile() || file.length() == 0) {
                 PrintWriter writer = new PrintWriter(file, "UTF-8");
                 writer.println(DOCUMENT_HEADER);
                 writer.close();
@@ -90,16 +90,20 @@ class ClassificationIOHandler extends IOHandler {
                 Element actionElement = (Element) classificationNode;
                 // Get values
                 String name = actionElement.getAttribute("name");
+                int id;
+                try {
+                    id = Integer.parseInt(actionElement.getAttribute("id"));
+                } catch (NumberFormatException e) {
+                    id = Classification.getUniqueId();
+                }
+                boolean visible;
+                if (actionElement.getAttribute("visible").equals("true")) {
+                    visible = true;
+                } else {
+                    visible = false;
+                }
 
-                // DO WE CHECK FOR DUPLICATIONS?
-                Classification c = Classification.classificationMap.get(name);
-
-                Classification classification = new Classification(name);
-                classifications.add(classification);
-                if(Classification.classificationMap.containsKey(name))
-                    Log.e("Test", "Dubble: " + c + ", " + c.getName());
-                else
-                    Log.e("Test", "Single: " + classification + ", " + classification.getName());
+                classifications.add(new Classification(name, id, visible));
             }
         } catch (IOException e) {
             Log.e("Error", "File input/output error");

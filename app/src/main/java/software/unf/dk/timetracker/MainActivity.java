@@ -14,8 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,14 +48,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        test();
+
         loadData();
         layoutSetup();
-
-        test();
     }
 
     // Used for testing ONLY!
     private void test(){
+        File file = new File(getFilesDir(), CLASSIFICATIONS_FILENAME);
+        file.delete();
+
+        file = new File(getFilesDir(), ACTIONS_FILENAME);
+        file.delete();
     }
 
     protected void onResume(){
@@ -119,23 +130,21 @@ public class MainActivity extends AppCompatActivity {
     // Runs when Enter is pressed
     public void enter(View view){
         // Creates new instance of an action and adds it to the list of actions.
-        String name = answer.getText().toString();
+        String name = classificationString;
         answer.setText("");
-        Classification classification = Classification.classificationMap.get(classificationString);
+        Classification classification = Classification.getClassificationByName(name);
+        Log.e("Test", classification + "");
         Date date = new Date();
         Action.actionList.add(new Action(name, classification, date));
     }
 
     public void createClassification(View view){
         String name = classificationText.getText().toString();
-        if(Classification.classificationMap.containsKey(name)){
-            // This classification exist.
-            Toast.makeText(this, "Already exists",
-                    Toast.LENGTH_LONG).show();
+
+        if (!Classification.createNew(name)) {
+            Toast.makeText(this, "Category already exists!", Toast.LENGTH_LONG).show();
             return;
         }
-        // Does not exist.
-        Classification.classificationMap.put(name, new Classification(name));
 
         setSpinner();
         classificationText.setText("");
