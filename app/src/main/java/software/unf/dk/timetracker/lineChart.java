@@ -1,40 +1,47 @@
 package software.unf.dk.timetracker;
 
-import android.support.v4.app.NotificationCompat;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.ChartData;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.EntryXComparator;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class lineChart extends AppCompatActivity {
 
-   private com.github.mikephil.charting.charts.LineChart lineChart;
-
-    //variables
-    //Strings
-    //Strings Arrays
-    private static String[] paths;
-    private String classificationString;
-    private final String ACTIONS_FILENAME = "actions.xml";
-    private final String CLASSIFICATIONS_FILENAME = "classifications.xml";
-    private Spinner spinLinechart;
-
-
+    private com.github.mikephil.charting.charts.LineChart lineChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_chart);
         setReference();
+
+        createDummyChart();
+    }
+
+    private void createDummyChart(){
+        ArrayList<Integer> amounts = new ArrayList<>();
+
+        amounts.add(10);
+        amounts.add(5);
+        amounts.add(8);
+        amounts.add(6);
+
+        makeLineChart("Football", amounts);
     }
 
     private void setReference(){
@@ -42,14 +49,60 @@ public class lineChart extends AppCompatActivity {
         LineChart lineChart = new LineChart(this);
     }
 
-    /**private void makePieChart(String title, ArrayList<String> dates, ArrayList<Integer> amounts) {
-        LineData dataSet = new LineDataSet();
-        dataSet.setColors(new int[] { R.color.neonpink, R.color.green, R.color.blue, R.color.lightgreen, R.color.red, R.color.yellow, R.color.lightblue, R.color.magenza, R.color.orange, R.color.turqoise, R.color.pumpkin, R.color.palepink, R.color.svump, R.color.darkpurple }, getApplicationContext());
-        PieData data = new PieData(dataSet);
-        pieChart.setData(data);
-        pieChart.invalidate(); // refresh
+    final String[] quarters = new String[] {"Q1", "Q2", "Q3", "Q4"};
 
-    }**/
+    private void makeLineChart(String title, ArrayList<Integer> amounts) {
+        lineChart.setData(Charts.createLineData(title, amounts));
+        lineChart.invalidate();
+
+        Charts.getXAxisData(quarters, lineChart);
+
+    }
+
+    private void makeOtherLineChart(){
+        List<Entry> valsComp1 = new ArrayList<Entry>();
+
+        Entry c1e1 = new Entry(0f, 100000f); // 0 == quarter 1
+        valsComp1.add(c1e1);
+        Entry c1e2 = new Entry(1f, 140000f); // 1 == quarter 2 ...
+        valsComp1.add(c1e2);
+        Entry c1e3 = new Entry(2f, 120000f); // 1 == quarter 2 ...
+        valsComp1.add(c1e3);
+        Entry c1e4 = new Entry(3f, 140000f); // 1 == quarter 2 ...
+        valsComp1.add(c1e4);
+        // and so on ...
+
+        LineDataSet setComp1 = new LineDataSet(valsComp1, "Company 1");
+        setComp1.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        // use the interface ILineDataSet
+        List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(setComp1);
+
+        LineData data = new LineData(dataSets);
+        lineChart.setData(data);
+        lineChart.invalidate(); // refresh
+
+        // the labels that should be drawn on the XAxis
+        final String[] quarters = new String[] { "Q1", "Q2", "Q3", "Q4" };
+
+        IAxisValueFormatter formatter = new IAxisValueFormatter() {
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return quarters[(int) value];
+            }
+
+            // we don't draw numbers, so no decimal digits needed
+            public int getDecimalDigits() {  return 0; }
+        };
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
+        xAxis.setValueFormatter(formatter);
+
+
+    }
 
 
     /** Sets Spinner**/
