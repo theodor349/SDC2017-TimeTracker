@@ -22,6 +22,53 @@ public class Charts {
      */
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Line Chart.
      *
@@ -29,6 +76,28 @@ public class Charts {
      *          lineChart.setData(Charts.createLineData(title, amounts));
      *          lineChart.invalidate();
      */
+
+    /**
+     * Code for implementing it in an Instance.
+     *
+
+     // If there is a reference to a chart, this will set all the alues.
+     private void makeLineChart(String title, ArrayList<Integer> amounts, LineChart lineChart) {
+         // Creates the "chart" as in where it is placed. (A reference)
+         lineChart.setData(Charts.createLineData(title, amounts));
+         // Updates the chart with the new values.
+         lineChart.invalidate();
+         // A String of what labels should be on the x-axis. (in order of x1,x2,x3...)
+         final String[] labels = new String[] {"D1", "D2", "D3", "D4"};
+         // Sets the labels.
+         Charts.getXAxisData(labels, lineChart);
+     }
+
+     *
+     */
+
+
+    // Creates all the data for a given line chart.
     public static LineData createLineData(String title, ArrayList<Integer> amounts){
         LineDataSet dataSet = new LineDataSet(createEntries(amounts), title);
         dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
@@ -36,15 +105,16 @@ public class Charts {
         return data;
     }
 
+    // Assigns the labels for the x-axis.
     public static XAxis getXAxisData(String[] names, LineChart lineChart){
         // the labels that should be drawn on the XAxis
-        final String[] quarters = new String[] { "Q1", "Q2", "Q3", "Q4" };
+        final String[] labels = names;
 
         IAxisValueFormatter formatter = new IAxisValueFormatter() {
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return quarters[(int) value];
+                return labels[(int) value];
             }
 
             // we don't draw numbers, so no decimal digits needed
@@ -58,6 +128,7 @@ public class Charts {
         return xAxis;
     }
 
+    // Formats the list of column values to a list of Entries, with the createLineData can use.
     private static List<Entry> createEntries(ArrayList<Integer> amounts) {
         List<Entry> result = new ArrayList<>();
 
