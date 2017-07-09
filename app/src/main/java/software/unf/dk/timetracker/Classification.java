@@ -20,13 +20,6 @@ class Classification {
     private int id;
     private boolean visible = true;
 
-    /**
-     * Maybe use a in int ID instead of the name. For what happens when the name changes?
-     * Do we want to delete data when "deleting" it or should we just mark it as "deleted" (with a bool)?
-     * Need to check whether or not there is an instance of this, before adding one to the map.
-     *
-     */
-
     // Instantiate method. Called when reading file.
     public Classification(String name, int id, boolean visible) {
         this.name = name;
@@ -41,9 +34,9 @@ class Classification {
 
         return name;
     }
+
     public void setName(String name){
         this.name = name;
-
     }
 
     public int getId() {

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,6 +117,10 @@ public class HistoryActivity extends Activity{
             case YEAR:
                 values = getYearData(date);
                 break;
+        }
+        for (Action a :
+                values) {
+            Log.e("Test", "address is " + a);
         }
 
         // Make the list a array.

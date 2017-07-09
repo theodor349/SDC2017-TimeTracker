@@ -104,7 +104,7 @@ public class CustomSettings extends Activity {
     }
 
     public void rename(View view){
-        /*// Build dialog
+        // Build dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Enter new category name");
 
@@ -128,14 +128,12 @@ public class CustomSettings extends Activity {
         });
 
         // Get classification and remove it from the map.
-        Classification c = Classification.classificationMap.remove(tempCata);
+        Classification c = Classification.getClassificationByName(tempCata);
         // Set field member name value
         c.setName(newName);
-        // Add to map with new key
-        Classification.classificationMap.put(newName, c);
         // Update spinner contents
         setSpinner();
-        rename.setText("");*/
+        rename.setText("");
         Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
     }
     public void changenotificationtime(View view){
