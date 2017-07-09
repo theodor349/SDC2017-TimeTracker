@@ -1,7 +1,10 @@
 package software.unf.dk.timetracker;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,15 +43,13 @@ public class CustomSettings extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customsettings);
 
-        cataset = (EditText) findViewById(R.id.classificationText);
+        cataset = findViewById(R.id.classificationText);
         enter2 = (Button) findViewById(R.id.adder);
 
         bremove = (Button) findViewById(R.id.bremove);
-        rename = (EditText) findViewById(R.id.renameTekst);
+        //rename = (EditText) findViewById(R.id.renameTekst);
         layoutSetup();
-
-
-
+        getIntent();
     }
 
     private void layoutSetup() {
@@ -61,7 +62,7 @@ public class CustomSettings extends Activity {
     }
 
     private  void setSpinner(){
-        paths = (String[]) Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
+        paths = Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
 
         // Doing so the Array can be put into the Spinner
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -87,25 +88,43 @@ public class CustomSettings extends Activity {
 
     public void adding(View view){
         String name = classificationText.getText().toString();
-        if(Classification.classificationMap.containsKey(name)){
-            // This classification exist.
-            Toast.makeText(this, "Already exists",
-                    Toast.LENGTH_LONG).show();
+
+        if (!Classification.createNew(name)) {
+            Toast.makeText(this, "Category already exists!", Toast.LENGTH_LONG).show();
             return;
         }
-        // Does not exist.
-        Classification.classificationMap.put(name, new Classification(name));
 
         setSpinner();
         classificationText.setText("");
     }
 
     public void remove(View view){
-        Toast.makeText(this, "We would have deleted it but we cant",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Not implemented yet",Toast.LENGTH_LONG).show();
     }
 
     public void rename(View view){
-        newName = rename.getText().toString();
+        /*// Build dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter new category name");
+
+        // Set text input
+        final EditText inputText = new EditText(this);
+        inputText.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(inputText);
+
+        // Define OK button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                newName = inputText.getText().toString();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
 
         // Get classification and remove it from the map.
         Classification c = Classification.classificationMap.remove(tempCata);
@@ -115,8 +134,8 @@ public class CustomSettings extends Activity {
         Classification.classificationMap.put(newName, c);
         // Update spinner contents
         setSpinner();
-        rename.setText("");
-
+        rename.setText("");*/
+        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
     }
 
 }
