@@ -20,8 +20,7 @@ public class CustomSettings extends Activity {
     private Button enter2;
     private Button bremove;
     private Spinner spinner;
-    private EditText classificationText;
-    private EditText rename;
+    private EditText classificationEntry;
     private String classificationName;
     private String newName;
 
@@ -30,7 +29,7 @@ public class CustomSettings extends Activity {
     private final String ACTIONS_FILENAME = "actions.xml";
     private final String CLASSIFICATIONS_FILENAME = "classifications.xml";
 
-    private static String[] paths = {"Calendar Events", "Chores", "Educational", "Entertainment", "Family", "Friends", "Relaxation", "Sports", "Work"};
+    private static String[] paths;
 
 
 
@@ -40,9 +39,9 @@ public class CustomSettings extends Activity {
         setContentView(R.layout.customsettings);
 
         cataset = findViewById(R.id.classificationText);
-        enter2 = (Button) findViewById(R.id.adder);
+        enter2 = findViewById(R.id.adder);
 
-        bremove = (Button) findViewById(R.id.bremove);
+        bremove = findViewById(R.id.bremove);
         //rename = (EditText) findViewById(R.id.renameTekst);
         layoutSetup();
         getIntent();
@@ -50,11 +49,10 @@ public class CustomSettings extends Activity {
 
     private void layoutSetup() {
         // Dropdown.
-        spinner = (Spinner)findViewById(R.id.spinner);
-        classificationText = (EditText) findViewById(R.id.classificationText);
+        spinner = findViewById(R.id.spinner);
+        classificationEntry = findViewById(R.id.classificationText);
 
         setSpinner();
-
     }
 
     private  void setSpinner(){
@@ -80,7 +78,7 @@ public class CustomSettings extends Activity {
     }
 
     public void adding(View view){
-        String name = classificationText.getText().toString();
+        String name = classificationEntry.getText().toString();
 
         if (!Classification.createNew(name)) {
             Toast.makeText(this, "Category already exists!", Toast.LENGTH_LONG).show();
@@ -88,7 +86,7 @@ public class CustomSettings extends Activity {
         }
 
         setSpinner();
-        classificationText.setText("");
+        classificationEntry.setText("");
     }
 
     public void remove(View view){
@@ -103,13 +101,18 @@ public class CustomSettings extends Activity {
         // Set text input
         final EditText inputText = new EditText(this);
         inputText.setInputType(InputType.TYPE_CLASS_TEXT);
+        inputText.setHint(classificationName);
         builder.setView(inputText);
 
         // Define OK button
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
                 newName = inputText.getText().toString();
+                Classification c = Classification.getClassificationByName(classificationName);
+                c.setName(newName);
+                setSpinner();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -118,15 +121,7 @@ public class CustomSettings extends Activity {
                 dialog.cancel();
             }
         });
-
-        // Get classification and remove it from the map.
-        Classification c = Classification.getClassificationByName(classificationName);
-        // Set field member name value
-        c.setName(newName);
-        // Update spinner contents
-        setSpinner();
-        rename.setText("");
-        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+        builder.show();
     }
 
 }

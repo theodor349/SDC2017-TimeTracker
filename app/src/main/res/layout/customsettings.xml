@@ -44,32 +44,21 @@
         android:layout_height="wrap_content"
         android:onClick="rename"
         android:text="Rename"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/adder"
-        android:layout_alignStart="@+id/adder" />
+        android:layout_below="@+id/spinner"
+        android:layout_alignLeft="@+id/texktview5"
+        android:layout_alignStart="@+id/texktview5"
+        android:layout_marginTop="23dp" />
 
     <Button
         android:id="@+id/bremove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         android:onClick="remove"
         android:text="Remove"
-        android:layout_below="@+id/brename"
-        android:layout_alignLeft="@+id/brename"
-        android:layout_alignStart="@+id/brename" />
-
-    <EditText
-        android:id="@+id/renameTekst"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/adder"
-        android:layout_toStartOf="@+id/adder" />
+        android:layout_alignBaseline="@+id/brename"
+        android:layout_alignBottom="@+id/brename"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -90,15 +79,6 @@
         android:text="Add a Catagory" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/renameTekst"
-        android:layout_alignLeft="@+id/renameTekst"
-        android:layout_alignStart="@+id/renameTekst"
-        android:text="New name" />
-
-    <TextView
         android:id="@+id/texktview5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -106,6 +86,6 @@
         android:layout_alignStart="@+id/classificationText"
         android:layout_below="@+id/adder"
         android:layout_marginTop="11dp"
-        android:text="Choose Catagory to rename" />
+        android:text="Select category" />
 
 </RelativeLayout>
