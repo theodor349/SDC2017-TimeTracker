@@ -8,29 +8,18 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 
 public class CustomSettings extends Activity {
-
-    private EditText cataset;
-    private Button enter2;
-    private Button bremove;
     private Spinner spinner;
     private EditText classificationEntry;
     private String classificationName;
     private String newName;
 
-
-    // Reference to files
-    private final String ACTIONS_FILENAME = "actions.xml";
-    private final String CLASSIFICATIONS_FILENAME = "classifications.xml";
-
-    private static String[] paths;
-
+    private static String[] spinnerStrings;
 
 
     @Override
@@ -56,10 +45,10 @@ public class CustomSettings extends Activity {
     }
 
     private  void setSpinner(){
-        paths = Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
+        spinnerStrings = Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
 
         // Doing so the Array can be put into the Spinner
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,paths);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerStrings);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -67,7 +56,7 @@ public class CustomSettings extends Activity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                classificationName = paths[i];
+                classificationName = spinnerStrings[i];
             }
 
             @Override
