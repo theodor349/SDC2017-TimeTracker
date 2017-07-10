@@ -137,6 +137,7 @@ public class HistoryActivity extends Activity{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Action.actionList.remove(action);
+                        updateView();
                         dialog.dismiss();
                     }
                 });

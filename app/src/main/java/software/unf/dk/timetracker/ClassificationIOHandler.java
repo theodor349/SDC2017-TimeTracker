@@ -32,7 +32,13 @@ import javax.xml.transform.stream.StreamResult;
  */
 
 class ClassificationIOHandler extends IOHandler {
-    private final String DOCUMENT_HEADER = "<?xml version=\"1.0\"?>\n<classifications>\n<classification name=\"Default\" id=\"0\" visible=\"true\"/>\n</classifications>";
+    private final String DOCUMENT_HEADER = "<?xml version=\"1.0\"?>\n<classifications>\n" +
+            "<classification name=\"Entertainment\" id=\"0\" visible=\"true\"/>" +
+            "<classification name=\"Education\" id=\"1\" visible=\"true\"/>" +
+            "<classification name=\"Sport\" id=\"2\" visible=\"true\"/>" +
+            "<classification name=\"Friends\" id=\"3\" visible=\"true\"/>" +
+            "<classification name=\"Work\" id=\"4\" visible=\"true\"/>" +
+            "\n</classifications>";
     public ClassificationIOHandler(File file) {
         super(file);
         try {
