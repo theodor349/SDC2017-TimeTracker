@@ -50,6 +50,7 @@ class Classification {
 
     static boolean createNew(String name) {
         if (Classification.nameExists(name)) {
+            getClassificationByName(name).setVisible(true);
             return false;
         }
         int id = Classification.getUniqueId();

@@ -141,6 +141,7 @@ class ClassificationIOHandler extends IOHandler {
 
             Attr visibleAttribute = document.createAttribute("visible");
             visibleAttribute.setValue(Boolean.toString(classification.isVisible()));
+            classificationElement.setAttributeNode(visibleAttribute);
 
             // Add element to root
             root.appendChild(classificationElement);

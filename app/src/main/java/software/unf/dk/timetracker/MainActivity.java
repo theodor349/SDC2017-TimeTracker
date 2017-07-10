@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     //Integers
     private static Integer notificationtimes=1;
     // Input text boxes
-    private EditText answer;
+    private AutoCompleteTextView answer;
     private EditText classificationText;
     // Spinner
     private Spinner spinner;
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
     // Strings
     private String classificationString;
     // String Array
-    private static String[] spinnerStrings;
+    private String[] spinnerStrings;
+    private String[] actionNames;
     //Boolean
     private static Boolean wantnotification = true;
 
@@ -118,10 +120,14 @@ public class MainActivity extends AppCompatActivity {
      */
     private void layoutSetup() {
         // Actions.
-        answer = (EditText) findViewById(R.id.svar);
+        answer = (AutoCompleteTextView) findViewById(R.id.svar);
         // Dropdown.
         spinner = (Spinner)findViewById(R.id.spinner);
         classificationText = (EditText) findViewById(R.id.classificationText);
+
+        actionNames = Action.getNames().toArray(new String[0]);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, actionNames);
+        answer.setAdapter(adapter);
 
         setSpinner();
     }
@@ -177,7 +183,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         if (!Classification.createNew(name)) {
-            Classification.getClassificationByName(name).setVisible(true);
+            try {
+                if (!Classification.getClassificationByName(name).isVisible()) {
+                    return;
+                }
+            } catch (NullPointerException e) {
+                showToast("Error!");
+            }
             showToast("Category already exists!");
             return;
         }

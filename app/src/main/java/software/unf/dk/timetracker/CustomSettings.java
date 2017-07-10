@@ -68,6 +68,7 @@ public class CustomSettings extends Activity {
 
         if (!Classification.createNew(name)) {
             Toast.makeText(this, "Category already exists!", Toast.LENGTH_LONG).show();
+            setSpinner();
             return;
         }
 
@@ -77,6 +78,7 @@ public class CustomSettings extends Activity {
 
     public void remove(View view){
         Classification.getClassificationByName(classificationName).setVisible(false);
+        setSpinner();
     }
 
     public void rename(View view){
