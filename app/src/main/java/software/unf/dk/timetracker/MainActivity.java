@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         if (!Classification.createNew(name)) {
+            Classification.getClassificationByName(name).setVisible(true);
             showToast("Category already exists!");
             return;
         }

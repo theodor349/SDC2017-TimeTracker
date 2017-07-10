@@ -76,7 +76,7 @@ public class CustomSettings extends Activity {
     }
 
     public void remove(View view){
-        Toast.makeText(this, "Not implemented yet",Toast.LENGTH_LONG).show();
+        Classification.getClassificationByName(classificationName).setVisible(false);
     }
 
     public void rename(View view){

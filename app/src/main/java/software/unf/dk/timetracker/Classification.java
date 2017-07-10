@@ -31,12 +31,17 @@ class Classification {
 
     // Name.
     public String getName() {
-
         return name;
     }
-
     public void setName(String name){
         this.name = name;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public int getId() {
@@ -115,7 +120,7 @@ class Classification {
     static ArrayList<String> mapToStringList(ConcurrentHashMap<Integer, Classification> map) {
         ArrayList<String> list = new ArrayList<>();
         for (Map.Entry<Integer, Classification> entry : map.entrySet()) {
-            list.add(entry.getValue().getName());
+            if (entry.getValue().isVisible()) list.add(entry.getValue().getName());
         }
         return list;
     }
