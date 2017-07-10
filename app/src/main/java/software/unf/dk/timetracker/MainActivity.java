@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //Integers
-    private static Integer notificationtimes=45;
+    private static Integer notificationTime =45;
     // Input text boxes
     private AutoCompleteTextView answer;
     private EditText classificationText;
@@ -47,13 +47,13 @@ public class MainActivity extends AppCompatActivity {
     private String[] spinnerStrings;
     private String[] actionNames;
     //Boolean
-    private static Boolean wantnotification = true;
+    private static Boolean wantNotification = true;
 
-    public static void setWantnotification(Boolean wantnotification) {
-        wantnotification = wantnotification;
+    public static void setWantNotification(Boolean wantNotification) {
+        MainActivity.wantNotification = wantNotification;
     }
-    public static void setNotificationtimes(Integer notificationtimes) {
-        MainActivity.notificationtimes = notificationtimes;
+    public static void setNotificationTime(Integer notificationTime) {
+        MainActivity.notificationTime = notificationTime;
     }
 
     @Override
@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         saveData();
-        if(wantnotification){
-            new CountDownTimer(notificationtimes*60*1000,1000){
+        if(wantNotification){
+            new CountDownTimer(notificationTime *60*1000,1000){
 
                 public void onTick(long millisUntilFinished) {}
 
@@ -220,7 +220,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createNotification (){
-
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_stat_name)
                 .setContentTitle("TimeTracker")
                 .setContentText("What are you doing");

@@ -3,6 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/adder"
+        android:layout_alignStart="@+id/adder"
+        android:layout_below="@+id/bremove"
+        android:layout_marginTop="22dp"
+        android:checked="true"
+        android:text="ToggleButton" />
+
     <Button
         android:id="@+id/adder"
         android:layout_width="wrap_content"
@@ -87,5 +98,44 @@
         android:layout_below="@+id/adder"
         android:layout_marginTop="11dp"
         android:text="Select category" />
+
+    <EditText
+        android:id="@+id/notificationtimetext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/brename"
+        android:layout_alignStart="@+id/brename"
+        android:layout_below="@+id/toggleButton"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Minutes to next notification"
+        android:layout_above="@+id/notificationtimetext"
+        android:layout_alignLeft="@+id/notificationtimetext"
+        android:layout_alignStart="@+id/notificationtimetext" />
+
+    <TextView
+        android:id="@+id/Notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/toggleButton"
+        android:layout_alignStart="@+id/toggleButton"
+        android:layout_below="@+id/bremove"
+        android:text="Notif On/Off" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/toggleButton"
+        android:layout_alignStart="@+id/toggleButton"
+        android:layout_alignTop="@+id/notificationtimetext"
+        android:onClick="updateNotificationTime"
+        android:text="Enter" />
 
 </RelativeLayout>

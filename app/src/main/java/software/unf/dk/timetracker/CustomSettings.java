@@ -8,9 +8,13 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.ToggleButton;
+
+import static software.unf.dk.timetracker.MainActivity.setNotificationTime;
 
 
 public class CustomSettings extends Activity {
@@ -18,6 +22,8 @@ public class CustomSettings extends Activity {
     private EditText classificationEntry;
     private String classificationName;
     private String newName;
+    private ToggleButton toggle;
+    private EditText notificationtimetext;
 
     private static String[] spinnerStrings;
 
@@ -27,12 +33,15 @@ public class CustomSettings extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customsettings);
         layoutSetup();
+        setToggle();
     }
 
     private void layoutSetup() {
         // Dropdown.
         spinner = findViewById(R.id.spinner);
         classificationEntry = findViewById(R.id.classificationText);
+        toggle = (ToggleButton) findViewById(R.id.toggleButton);
+        notificationtimetext = (EditText) findViewById(R.id.notificationtimetext);
 
         setSpinner();
     }
@@ -119,5 +128,30 @@ public class CustomSettings extends Activity {
         });
         builder.show();
     }
+    public void setToggle() {
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    MainActivity.setWantNotification(true);
+                } else {
+                    MainActivity.setWantNotification(false);
+                }
+            }
+        });
+    }
+
+
+    public void updateNotificationTime(View view) {
+        int time;
+        try {
+            time = Integer.parseInt(notificationtimetext.getText().toString());
+            notificationtimetext.setText("");
+        } catch (Exception e) {
+            Toast.makeText(this, "Please enter a number", Toast.LENGTH_LONG);
+            return;
+        }
+        setNotificationTime(time);
+    }
+
 
 }
