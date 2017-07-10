@@ -133,6 +133,13 @@ public class HistoryActivity extends Activity{
                         dialog.cancel();
                     }
                 });
+                builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Action.actionList.remove(action);
+                        dialog.dismiss();
+                    }
+                });
 
                 builder.show();
 

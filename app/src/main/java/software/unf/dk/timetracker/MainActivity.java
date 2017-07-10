@@ -125,11 +125,14 @@ public class MainActivity extends AppCompatActivity {
         spinner = (Spinner)findViewById(R.id.spinner);
         classificationText = (EditText) findViewById(R.id.classificationText);
 
+        setCompletion();
+        setSpinner();
+    }
+
+    void setCompletion() {
         actionNames = Action.getNames().toArray(new String[0]);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, actionNames);
         answer.setAdapter(adapter);
-
-        setSpinner();
     }
 
     private void setSpinner(){
@@ -168,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         answer.setText("");
+        setCompletion();
         Classification classification = Classification.getClassificationByName(classificationString);
         Log.e("Test", classification + "");
         Date date = new Date();
@@ -183,14 +187,16 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         if (!Classification.createNew(name)) {
-            try {
-                if (!Classification.getClassificationByName(name).isVisible()) {
+            setSpinner();
+            Classification c;
+            if ((c = Classification.getClassificationByName(name)) != null) {
+                if (!c.isVisible()) {
+                    showToast("Category already exists!");
                     return;
+                } else {
+                    classificationText.setText("");
                 }
-            } catch (NullPointerException e) {
-                showToast("Error!");
             }
-            showToast("Category already exists!");
             return;
         }
 
