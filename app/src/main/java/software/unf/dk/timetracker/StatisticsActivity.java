@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -32,6 +33,11 @@ public class StatisticsActivity extends Activity {
 
     private ListView statListView;
 
+    // Spinner
+    private Spinner spinner;
+    private static String[] spinnerStrings;
+    private String classificationString;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,8 +46,16 @@ public class StatisticsActivity extends Activity {
         layoutSetup();
     }
 
+    protected void onResume(){
+        super.onResume();
+        setSpinner();
+    }
+
     private void layoutSetup() {
         setReferences();
+
+        // Spinner.
+        spinner = (Spinner)findViewById(R.id.catagoryChooser);
 
         updateView();
     }
@@ -52,9 +66,49 @@ public class StatisticsActivity extends Activity {
     }
 
     void updateView(){
-        String[] values = Action.getNames().toArray(new String[0]);
-        ArrayAdapter<String> adapter = new StatisticsArrayAdapter(this, values);
+        ArrayList<String> valuesToRead = new ArrayList<>();
+
+        // Find the values to read.
+        for (Action a : Action.actionList) {
+            Log.e("Test", "Name of catagory: " +a.getClassification().getName() + " and looking for: " + classificationString);
+            if(a.getClassification().getName().equals(classificationString)){
+                // The one we are looking for.
+                valuesToRead.add(a.getName());
+                Log.e("Test", "Used");
+            }
+        }
+
+        // Convert the list back to an array.
+        String[] valuesToSend = valuesToRead.toArray(new String[0]);
+        Log.e("Test", "" + valuesToSend.length);
+        ArrayAdapter<String> adapter = new StatisticsArrayAdapter(this, valuesToSend);
         statListView.setAdapter(adapter);
+    }
+
+    private void setSpinner(){
+        spinnerStrings = Classification.mapToStringList(Classification.classificationMap).toArray(new String[0]);
+        classificationString = spinnerStrings[0];
+
+        // Doing so the Array can be put into the Spinner
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(StatisticsActivity.this,
+                android.R.layout.simple_spinner_item, spinnerStrings);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        // Listen to things happens on the Spinner
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                              @Override
+                                              public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                  // Set string to selected spinner value
+                                                  classificationString = spinnerStrings[i];
+                                                  Log.i("Test", "Hi the class text have been set with: " + classificationString);
+                                                  updateView();
+                                              }
+
+                                              @Override
+                                              public void onNothingSelected(AdapterView<?> adapterView) { }
+                                          }
+        );
     }
 
 }
