@@ -36,7 +36,6 @@ public class StatisticsActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("Test", "Hello");
         setContentView(R.layout.activity_statistics);
         layoutSetup();
     }
@@ -89,6 +88,7 @@ class StatisticsArrayAdapter extends ArrayAdapter<String> {
         String date = dateFormat.format(new Date());
         int amount = 0;
         for (int i = 0; i < 7; i++) {
+            amount = 0;
             for (Action a : Action.getAllWithName(name)) {
                 if (dateFormat.format(a.getDate()).equals(date)) {
                     // Date we look for.
@@ -105,6 +105,8 @@ class StatisticsArrayAdapter extends ArrayAdapter<String> {
             }
             c.add(Calendar.DATE, -1);  // number of days to add
             date = dateFormat.format(c.getTime());  // currShownDate is now the new date
+
+            amounts.add(amount);
         }
 
         makeLineChart(name, amounts, chart);
@@ -114,6 +116,7 @@ class StatisticsArrayAdapter extends ArrayAdapter<String> {
 
     // If there is a reference to a chart, this will set all the values.
     private void makeLineChart(String title, ArrayList<Integer> amounts, LineChart lineChart) {
+        Log.i("Test", "Title: " + title + ", Amounts: " + amounts + ", Chart: " + lineChart);
         // Creates the "chart" as in where it is placed. (A reference)
         lineChart.setData(Charts.createLineData(title, amounts));
         // Updates the chart with the new values.
