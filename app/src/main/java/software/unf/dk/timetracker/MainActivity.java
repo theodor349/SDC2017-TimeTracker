@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
     public void createNotification (){
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_stat_name)
                 .setContentTitle("TimeTracker")
-                .setContentText("What are you doing");
+                .setContentText("What are you doing?");
         // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, MainActivity.class);
 

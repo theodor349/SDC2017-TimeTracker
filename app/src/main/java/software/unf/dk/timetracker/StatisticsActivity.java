@@ -67,6 +67,7 @@ public class StatisticsActivity extends Activity {
 
     void updateView(){
         ArrayList<String> valuesToRead = new ArrayList<>();
+        valuesToRead.add("catagory");
 
         // Find the values to read.
         for (Action a : Action.actionList) {
@@ -85,7 +86,7 @@ public class StatisticsActivity extends Activity {
         // Convert the list back to an array.
         String[] valuesToSend = valuesToRead.toArray(new String[0]);
         Log.e("Test", "" + valuesToSend.length);
-        ArrayAdapter<String> adapter = new StatisticsArrayAdapter(this, valuesToSend);
+        ArrayAdapter<String> adapter = new StatisticsArrayAdapter(this, valuesToSend, classificationString);
         statListView.setAdapter(adapter);
     }
 
@@ -120,16 +121,51 @@ public class StatisticsActivity extends Activity {
 class StatisticsArrayAdapter extends ArrayAdapter<String> {
     private final Context context;
     private final String[] values;
+    private final String category;
 
-    public StatisticsArrayAdapter(Context context, String[] values) {
+    public StatisticsArrayAdapter(Context context, String[] values, String category) {
         super(context, -1, values);
         this.context = context;
         this.values = values;
+        this.category = category;
     }
 
     @Override @NonNull
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         String name = values[position];
+
+        if(name.equals("catagory")){
+            // If it is the first line, make a pieChart.
+
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.activity_statistics_pie_row, parent, false);
+            TextView nameText = (TextView) convertView.findViewById(R.id.nameOfPieChart);
+            PieChart chart = (PieChart) convertView.findViewById(R.id.chart);
+
+            nameText.setText(category);
+
+            ArrayList<String> labels = new ArrayList<>();
+            for (Action a : Action.actionList) {
+                if(labels.contains(a.getName())){
+                    continue;
+                }
+                if(a.getClassification().getName().equals(category)){
+                    labels.add(a.getName());
+                }
+            }
+
+            ArrayList<Integer> amounts = new ArrayList<>();
+            for (String s : labels) {
+                amounts.add(Action.getAmount(s));
+            }
+
+            makePieChart(category, labels, amounts, chart);
+
+
+
+            return convertView;
+
+        }
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.activity_statistics_row, parent, false);
@@ -185,5 +221,14 @@ class StatisticsArrayAdapter extends ArrayAdapter<String> {
         Charts.getXAxisData(labels, lineChart);
     }
 
+    // If there is a reference to a chart, this will set all the values.
+    private void makePieChart(String title, ArrayList<String> names, ArrayList<Integer> amounts, PieChart pieChart) {
+        int[] colors = new int[] { R.color.neonpink, R.color.green, R.color.blue, R.color.lightgreen, R.color.red, R.color.yellow, R.color.lightblue, R.color.magenza, R.color.orange, R.color.turqoise, R.color.pumpkin, R.color.palepink, R.color.svump, R.color.darkpurple }, getApplicationContext;
+        PieDataSet dataSet = new PieDataSet(Charts.createEntries(names, amounts), title);
+        dataSet.setColors(colors, context);
+        PieData data = new PieData(dataSet);
+        pieChart.setData(data);
+        pieChart.invalidate(); // refresh
+    }
 
 }
