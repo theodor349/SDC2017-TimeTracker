@@ -73,8 +73,12 @@ public class StatisticsActivity extends Activity {
             Log.e("Test", "Name of catagory: " +a.getClassification().getName() + " and looking for: " + classificationString);
             if(a.getClassification().getName().equals(classificationString)){
                 // The one we are looking for.
+                // Do we already have it?
+                if(valuesToRead.contains(a.getName()))
+                    continue;
+
                 valuesToRead.add(a.getName());
-                Log.e("Test", "Used");
+                Log.e("Test", "Used action: " + a.getName());
             }
         }
 

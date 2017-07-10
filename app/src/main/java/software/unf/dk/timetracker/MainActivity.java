@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //Integers
-    private static Integer notificationtimes=1;
+    private static Integer notificationtimes=45;
     // Input text boxes
     private AutoCompleteTextView answer;
     private EditText classificationText;
