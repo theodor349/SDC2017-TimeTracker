@@ -35,7 +35,7 @@ class Action {
         this.date = date;
         this.description = description;
     }
-
+ 
     /**
      * Getter and setters.
      */
