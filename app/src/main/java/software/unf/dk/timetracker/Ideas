@@ -1,0 +1,23 @@
+
+
+
+
+
+
+
+
+- Be able to track the time doing something.
+        - So instead of knowing how many times one have played a game, one knows how much time one have used playing that game.
+    - What needs to be know about it. (Apples as example)
+        - At what time. (Need to be able to set the time, if you did it for 5 mins ago)
+            - So data should maybe be held in a que of sorts.
+        - Category (Entertainment, Sport etc.)
+
+
+- But also be able to just do counting.
+        - Could be used for statistics on how many push-ups one have done or have many apples have been eaten.
+    - What needs to be know about it. (Apples as example)
+        - How many apples have been eaten.
+        - At what time. (Need to be able to set the time, if you did it for 5 mins ago)
+            - So data should maybe be held in a que of sorts.
+        - Category (Foods, Training etc.)
