@@ -51,7 +51,7 @@ class ClassificationIOHandler extends IOHandler {
             // Initialise parser objects
             factory = DocumentBuilderFactory.newInstance();
             builder = factory.newDocumentBuilder();
-            // Create test string
+            // Create activity_test string
             ByteArrayInputStream input = new ByteArrayInputStream(DOCUMENT_HEADER.getBytes("UTF-8"));
 
             // Parse file

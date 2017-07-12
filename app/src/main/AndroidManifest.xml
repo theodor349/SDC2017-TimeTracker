@@ -22,6 +22,7 @@
         <activity android:name=".PieChartView"/>
         <activity android:name=".lineChart"/>
         <activity android:name=".StatisticsActivity"/>
+        <activity android:name=".test"/>
     </application>
 
 </manifest>

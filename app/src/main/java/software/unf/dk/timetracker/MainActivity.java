@@ -247,4 +247,9 @@ public class MainActivity extends AppCompatActivity {
         mNotificationManager.notify(3, mBuilder.build());
     }
 
+    public void onTestButtonPressed(View view){
+        Intent intent = new Intent(this, test.class);
+        startActivity(intent);
+    }
+    
 }
